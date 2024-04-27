@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/sheet_background">
+    android:background="@drawable/sheet_background"
+    tools:context=".Action">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/bahnschrift"
         android:layout_marginTop="20dp"
-        android:text="Indicate type of emergency:" />
+        android:layout_gravity="center"
+        android:textSize="14dp"
+        android:text="Indicate emergency"
+        android:textColor="@color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,27 +27,28 @@
         <Button
             android:id="@+id/firealarm"
             android:layout_width="90dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:layout_marginLeft="90dp"
-            android:background="@drawable/firealarm"
-            android:backgroundTint="#DD0505" />
+            android:background="@drawable/def_fire" />
 
         <Button
             android:id="@+id/earthquakealarm"
             android:layout_width="90dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/earthquakealarm"
-            android:backgroundTint="#DD0505" />
+            android:background="@drawable/def_quake" />
 
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/bahnschrift"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Call authorities:" />
+        android:text="Call authorities"
+        android:textColor="@color/white" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,28 +58,27 @@
 
 
         <Button
-            android:id="@+id/parademiccall"
+            android:id="@+id/paramed_call"
             android:layout_width="90dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="27.5dp"
-            android:background="@drawable/paramediccall"
-            android:backgroundTint="#DD0505" />
+            android:layout_height="90dp"
+            android:layout_marginStart="27.5dp"
+            android:background="@drawable/def_paramedics" />
 
         <Button
-            android:id="@+id/firedeptcall"
+            android:id="@+id/firedept_call"
             android:layout_width="90dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="40dp"
-            android:background="@drawable/firedeptcall"
-            android:backgroundTint="#DD0505" />
+            android:layout_height="90dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/def_firedept"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
-            android:id="@+id/policecall"
+            android:id="@+id/police_call"
             android:layout_width="90dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="40dp"
-            android:background="@drawable/policecall"
-            android:backgroundTint="#DD0505" />
+            android:layout_height="90dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/def_policedept"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 

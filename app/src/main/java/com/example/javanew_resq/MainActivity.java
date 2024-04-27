@@ -1,25 +1,20 @@
 package com.example.javanew_resq;
 
+
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     FirebaseUser user;
     BottomSheetDialog sheetDialog;
+    static int PERMISSION_CODE= 100;
 
     @Override
 
@@ -44,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
@@ -56,26 +53,60 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                sheetDialog=new BottomSheetDialog(MainActivity.this,R.style.BottomSheetStyle);
+                showDialog();
 
-                View view= LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_dialog,
-                        (LinearLayout)findViewById(R.id.sheet));
-
-                sheetDialog.setContentView(view);
-
-                sheetDialog.show();
             }
         });
-        button.setOnClickListener(new View.OnClickListener() {
+
+    }
+    private void showDialog() {
+
+        final Dialog sheetDialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheetStyle);
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_dialog,
+                (LinearLayout) findViewById(R.id.sheet));
+        sheetDialog.setContentView(view);
+
+        Button paramedbtn;
+        Button firedeptbtn;
+        Button policebtn;
+
+        paramedbtn = sheetDialog.findViewById(R.id.paramed_call);
+        firedeptbtn = sheetDialog.findViewById(R.id.firedept_call);
+        policebtn = sheetDialog.findViewById(R.id.police_call);
+
+        policebtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:4185400"));
                 startActivity(intent);
-                finish();
-
             }
+
         });
+
+
+        firedeptbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:56416540"));
+                startActivity(intent);
+            }
+
+        });
+
+        paramedbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:09682008068"));
+                startActivity(intent);
+            }
+
+
+        });
+
+        sheetDialog.show();
 
     }
 

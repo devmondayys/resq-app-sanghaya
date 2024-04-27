@@ -15,80 +15,93 @@
         android:gravity="center"
         android:orientation="vertical">
 
+
+        <TextView
+            android:id="@+id/authorized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-60dp"
+            android:text="@string/register_authorized_personnel_only"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+
         <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@drawable/icon_acc_circle"/>
+            android:id="@+id/imageView2"
+            android:layout_width="427dp"
+            android:layout_height="145dp"
+            android:layout_marginTop="90dp"
+            app:srcCompat="@drawable/main_logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/netflix"
-            android:text="ResQ"
             android:layout_gravity="center"
-            android:textSize="30dp"
             android:layout_marginBottom="70dp"
-            android:textColor="#E1E1E1"/>
-
+            android:fontFamily="@font/dinpro"
+            android:text="ResQ"
+            android:textColor="#E1E1E1"
+            android:textSize="50dp" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/email_input"
+            android:fontFamily="@font/bahnschrift"
+            android:layout_width="343dp"
+            android:layout_height="55dp"
+            android:background="@drawable/rounded_corner"
             android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
-            android:background="@drawable/rounded_corner"
-            android:padding="18dp"
-            android:inputType="textEmailAddress"
-            android:id="@+id/email_input"/>
+            android:textSize="18sp" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/password_input"
+            android:fontFamily="@font/bahnschrift"
+            android:layout_width="343dp"
+            android:layout_height="55dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner"
             android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="16dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
-            android:background="@drawable/rounded_corner"
-            android:padding="18dp"
-            android:inputType="textPassword"
-            android:id="@+id/password_input"/>
+            android:textSize="18sp" />
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:backgroundTint="#DD0505"
-            android:textColor="@color/white"
-            android:padding="18dp"
+            android:id="@+id/login_btn"
+            android:layout_width="343dp"
+            android:layout_height="55dp"
             android:layout_marginTop="32dp"
-            android:textSize="20sp"
-            android:background="@drawable/rounded_corner"
-            android:id="@+id/login_btn"/>
-
+            android:background="@drawable/login_but"
+            android:backgroundTint="#D62026"
+            android:fontFamily="@font/bahnschrift"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
         <TextView
+            android:id="@+id/registerNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_authorized_personnel_only"
-            android:textSize="0sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="-600dp"
-            android:id="@+id/registerNow"/>
+            android:layout_marginTop="10dp"
+            android:text="@string/help"
+            android:textColor="@color/gray"
+            android:textSize="12dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 

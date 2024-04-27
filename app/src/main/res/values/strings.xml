@@ -5,6 +5,9 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="register_authorized_personnel_only">Register (Authorized Personnel Only)</string>
+    <string name="register_authorized_personnel_only">Authorized Personnel Only</string>
     <string name="register">Register</string>
+    <string name="help">Need help?</string>
+    <string name="emergency">Emergency</string>
+    <string name="phone_number" />
 </resources>

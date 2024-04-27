@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.JavaNew_ResQ" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.JavaNew_ResQ" parent="Base.Theme.JavaNew_ResQ" />
+
+    <style name="BottomSheetStyle" parent="Theme.Design.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/Modal</item>
+
+    </style>
+    
+    <style name="Modal" parent="Widget.Design.BottomSheet.Modal">
+
+        <item name="android:background">@drawable/sheet_background</item>
+
+    </style>
+</resources>

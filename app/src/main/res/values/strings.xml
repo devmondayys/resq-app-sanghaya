@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">JavaNew_ResQ</string>
+    <string name="press_to_login">Press to Login</string>
+    <string name="logout">LOGOUT</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register_authorized_personnel_only">Register (Authorized Personnel Only)</string>
+    <string name="register">Register</string>
+</resources>

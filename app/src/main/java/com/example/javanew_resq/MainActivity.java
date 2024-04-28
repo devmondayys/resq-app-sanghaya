@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         policebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:4185400"));
                 startActivity(intent);
             }
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         firedeptbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:56416540"));
                 startActivity(intent);
             }

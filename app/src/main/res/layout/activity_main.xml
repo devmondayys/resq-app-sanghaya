@@ -44,7 +44,7 @@
         android:text="@string/emergency"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:textSize="40sp"
+        android:textSize="50sp"
         android:textColor="#808080"/>
 
 <!--    <TextView-->
@@ -59,12 +59,12 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="450dp"
+        android:layout_height="450dp"
         android:layout_gravity="center"
-        android:gravity="center_vertical"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/alert_icon" />
+        android:layout_marginTop="0dp"
+        android:background="@drawable/alert_icon"
+        android:gravity="center_vertical" />
 
 
 </LinearLayout>

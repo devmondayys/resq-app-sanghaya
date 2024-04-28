@@ -1,14 +1,16 @@
 package com.example.javanew_resq;
 
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,12 +20,16 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +44,15 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     BottomSheetDialog sheetDialog;
     static int PERMISSION_CODE= 100;
+    private boolean firebutton = true;
+    private boolean quakebutton = true;
+
+
 
     ActivityResultLauncher<String[]> mPermissionResultLauncher;
     private boolean isCallPermissionGranted = false;
     private boolean isLocationPermissionGranted = false;
-
+    private DatabaseReference mDatabase;
 
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
 
@@ -56,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference reference = mDatabase.child("PARAMEDIC_LINE");
+
         mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
             public void onActivityResult(Map<String, Boolean> result) {
@@ -135,10 +150,52 @@ public class MainActivity extends AppCompatActivity {
         Button paramedbtn;
         Button firedeptbtn;
         Button policebtn;
+        Button firebtn;
+        Button quakebtn;
 
         paramedbtn = sheetDialog.findViewById(R.id.paramed_call);
         firedeptbtn = sheetDialog.findViewById(R.id.firedept_call);
         policebtn = sheetDialog.findViewById(R.id.police_call);
+        firebtn = sheetDialog.findViewById(R.id.fire_alarm);
+        quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
+
+
+
+        firebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!firebutton){
+                    firebutton=true;
+                    firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
+                    mDatabase.child("FIRE_STATUS").setValue(firebutton);
+                }
+                else{
+                    firebutton=false;
+                    firebtn.setBackground(getResources().getDrawable(R.drawable.def_fire));
+                    quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
+                    mDatabase.child("FIRE_STATUS").setValue(firebutton);
+                }
+            }
+
+        });
+        quakebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!quakebutton){
+                    quakebutton=true;
+                    quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
+                    mDatabase.child("EARTHQUAKE_STATUS").setValue(quakebutton);
+                }
+                else{
+                    quakebutton=false;
+                    quakebtn.setBackground(getResources().getDrawable(R.drawable.def_quake));
+                    firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
+                    mDatabase.child("EARTHQUAKE_STATUS").setValue(quakebutton);
+                }
+            }
+
+        });
 
         policebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,12 +222,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:09682008068"));
+                intent.setData(Uri.parse("tel:119981"));
                 startActivity(intent);
             }
 
-
         });
+
 
         sheetDialog.show();
 

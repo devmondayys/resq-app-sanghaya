@@ -12,6 +12,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.Manifest;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -19,6 +24,10 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     BottomSheetDialog sheetDialog;
     static int PERMISSION_CODE= 100;
 
+    ActivityResultLauncher<String[]> mPermissionResultLauncher;
+    private boolean isCallPermissionGranted = false;
+    private boolean isLocationPermissionGranted = false;
+
+
+    private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +56,26 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+        mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> result) {
+
+                if (result.get(Manifest.permission.CALL_PHONE) != null){
+
+                    isCallPermissionGranted = Boolean.TRUE.equals(result.get(Manifest.permission.CALL_PHONE));
+
+                }
+
+                if (result.get(Manifest.permission.ACCESS_FINE_LOCATION) != null){
+
+                    isLocationPermissionGranted = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION));
+
+                }
+
+            }
+        });
+
+        requestPermission();
 
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -49,14 +85,44 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(user.getEmail());
         }
 
+
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showDialog();
 
             }
         });
+
+    }
+    private void requestPermission(){
+
+        isCallPermissionGranted = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CALL_PHONE
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        isLocationPermissionGranted = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        List<String> permissionRequest = new ArrayList<String>();
+
+        if (!isCallPermissionGranted){
+
+            permissionRequest.add(Manifest.permission.CALL_PHONE);
+        }
+        if (!isLocationPermissionGranted){
+
+            permissionRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        if (!permissionRequest.isEmpty()){
+
+            mPermissionResultLauncher.launch(permissionRequest.toArray(new String[0]));
+        }
+
 
     }
     private void showDialog() {
@@ -98,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         paramedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:09682008068"));
                 startActivity(intent);
             }

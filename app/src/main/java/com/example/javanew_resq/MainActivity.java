@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,9 +21,12 @@ import android.Manifest;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCallPermissionGranted = false;
     private boolean isLocationPermissionGranted = false;
     private DatabaseReference mDatabase;
+
+    private int PARAMEDIC_LINE;
 
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
 
@@ -197,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+
         policebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,14 +227,18 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        paramedbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:119981"));
-                startActivity(intent);
-            }
 
+
+        mDatabase.child("PARAMEDIC_LINE").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("PARAMEDIC_LINE", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("PARAMEDIC_LINE", String.valueOf(task.getResult().getValue()));
+                }
+            }
         });
 
 

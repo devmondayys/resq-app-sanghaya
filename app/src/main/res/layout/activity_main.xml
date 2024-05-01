@@ -4,27 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/logoutq"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="top|right"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:text="@string/logout"-->
-<!--        android:textSize="13sp" />-->
+    <!--        android:id="@+id/logoutq"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="top|right"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        android:text="@string/logout"-->
+    <!--        android:textSize="13sp" />-->
 
     <TextView
         android:id="@+id/user_details"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="resqproject2024@gmail.com"
-        android:visibility="gone"
-        android:textColor="#000000" />
+        android:text="DEFAULT"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout"
@@ -40,22 +41,22 @@
         android:id="@+id/emer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/bahnschrift"
-        android:text="@string/emergency"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:textSize="50sp"
-        android:textColor="#808080"/>
+        android:fontFamily="@font/bahnschrift"
+        android:text="@string/emergency"
+        android:textColor="#808080"
+        android:textSize="50sp" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/emer_title"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/bahnschrift"-->
-<!--        android:text="@string/emergency"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:textSize="40sp"-->
-<!--        android:textColor="#808080" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/emer_title"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/bahnschrift"-->
+    <!--        android:text="@string/emergency"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="40sp"-->
+    <!--        android:textColor="#808080" />-->
 
     <Button
         android:id="@+id/button2"

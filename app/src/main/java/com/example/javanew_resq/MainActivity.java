@@ -3,6 +3,7 @@ package com.example.javanew_resq;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -35,6 +37,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
 
+    @SuppressLint("SetTextI18n")
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +79,24 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+        String admin = "stec.jhsandshs@gmail.com";
+        String maintenance = "resqproject2024@gmail.com";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         DatabaseReference reference = mDatabase.child("PARAMEDIC_LINE");
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                auth.signOut();
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(MainActivity.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
@@ -100,12 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermission();
 
+        String email = user.getUid();
+
+
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
-        } else {
-            textView.setText(user.getEmail());
         }
 
 
@@ -154,12 +174,14 @@ public class MainActivity extends AppCompatActivity {
         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_dialog,
                 (LinearLayout) findViewById(R.id.sheet));
         sheetDialog.setContentView(view);
-
         Button paramedbtn;
         Button firedeptbtn;
         Button policebtn;
         Button firebtn;
         Button quakebtn;
+
+        textView = sheetDialog.findViewById(R.id.high);
+        user = auth.getCurrentUser();
 
         paramedbtn = sheetDialog.findViewById(R.id.paramed_call);
         firedeptbtn = sheetDialog.findViewById(R.id.firedept_call);
@@ -167,7 +189,9 @@ public class MainActivity extends AppCompatActivity {
         firebtn = sheetDialog.findViewById(R.id.fire_alarm);
         quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
 
-
+        if (user.getUid().equalsIgnoreCase("S7zbixlCOJfUtgVJPuXhG3adJ3q1")){
+            textView.setText("ADMIN");
+        }
 
         firebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,16 +253,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        mDatabase.child("PARAMEDIC_LINE").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        paramedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("PARAMEDIC_LINE", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("PARAMEDIC_LINE", String.valueOf(task.getResult().getValue()));
-                }
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:56416540"));
+                startActivity(intent);
             }
+
         });
 
 

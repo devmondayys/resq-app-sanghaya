@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JavaNew_ResQ</string>
+    <string name="app_name">resq</string>
     <string name="press_to_login">Press to Login</string>
     <string name="logout">LOGOUT</string>
     <string name="email">Email</string>

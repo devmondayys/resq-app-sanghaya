@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
 
-
+    <item
+        android:icon="@drawable/resq"
+        android:id="@+id/navMenu"
+        android:iconTint="@color/white"
+        android:title="Home" />
 
     <item
         android:icon="@drawable/baseline_settings_24"
-        android:id="@+id/navMenu"
+        android:id="@+id/navMenu2"
         android:iconTint="@color/white"
         android:title="Settings" />
 
     <item
         android:icon="@drawable/baseline_storage_24"
-        android:id="@+id/navMenu1"
+        android:id="@+id/navMenu3"
         android:iconTint="@color/white"
         android:title="View Database" />
 
     <item
         android:icon="@drawable/baseline_code_24"
-        android:id="@+id/navMenu2"
+        android:id="@+id/navMenu4"
         android:iconTint="@color/white"
         android:title="Documentation"/>
 
     <item
         android:icon="@drawable/baseline_question_mark_24"
-        android:id="@+id/navMenu3"
+        android:id="@+id/navMenu5"
         android:iconTint="@color/white"
         android:title="FAQ" />
-
-
 
 </menu>

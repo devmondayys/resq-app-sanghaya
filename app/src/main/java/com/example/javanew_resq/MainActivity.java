@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -26,10 +28,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     static int PERMISSION_CODE= 100;
     private boolean firebutton = true;
     private boolean quakebutton = true;
+    DrawerLayout drawerLayout;
+    Button sidebar_open;
 
 
 
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         String admin = "stec.jhsandshs@gmail.com";
         String maintenance = "resqproject2024@gmail.com";
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        sidebar_open = findViewById(R.id.sidebar_open);
+        sidebar_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.open();
+            }
+        });
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -168,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @SuppressLint({"CutPasteId", "UseCompatLoadingForDrawables"})
     private void showDialog() {
 
         final Dialog sheetDialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheetStyle);

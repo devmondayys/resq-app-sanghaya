@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -48,6 +49,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean quakebutton = true;
     DrawerLayout drawerLayout;
     Button sidebar_open;
+    NavigationView navigationView;
 
 
 
@@ -90,10 +93,35 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
+        navigationView = findViewById(R.id.NavigationView);
+
         sidebar_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.open();
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.navMenu) {
+                    drawerLayout.close();
+                }
+
+                if (itemId == R.id.navMenu2) {
+                    Intent intent = new Intent(getApplicationContext(), Settings2.class);
+                    startActivity(intent);
+                }
+
+                if (itemId == R.id.navMenu5) {
+                    Intent intent = new Intent(getApplicationContext(), Faq.class);
+                    startActivity(intent);
+                }
+                return false;
             }
         });
 

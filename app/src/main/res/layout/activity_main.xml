@@ -39,6 +39,7 @@
                 android:layout_width="22dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
+                android:backgroundTint="@color/white"
                 android:background="@drawable/baseline_menu_24" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -46,6 +47,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="280dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/logout_buttton"/>
 
         </LinearLayout>

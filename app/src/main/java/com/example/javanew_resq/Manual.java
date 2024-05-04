@@ -15,8 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
@@ -51,20 +54,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class Manual extends AppCompatActivity {
 
     FirebaseAuth auth;
     Button button;
     Button button2;
     TextView textView;
     FirebaseUser user;
-    BottomSheetDialog sheetDialog;
-    static int PERMISSION_CODE= 100;
-    private boolean firebutton = true;
-    private boolean quakebutton = true;
     DrawerLayout drawerLayout;
     Button sidebar_open;
     NavigationView navigationView;
+    String[] item = {"The system automatically rings at 7:10 to remind students of the time 7:15 to indicate the start of the flag ceremony and listing of tardiness in the morning. It also offers remote triggering capabilities via the ResQ app for emergency situations like earthquakes and fires. "};
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> adapterText;
 
 
 
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_manual);
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logout);
         button2 = findViewById(R.id.button2);
@@ -90,10 +92,116 @@ public class MainActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         String admin = "stec.jhsandshs@gmail.com";
         String maintenance = "resqproject2024@gmail.com";
-
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
+
+        TextView text1 = findViewById(R.id.faqtext1);
+        TextView text2 = findViewById(R.id.faqtext2);
+        TextView text3 = findViewById(R.id.faqtext3);
+        TextView text4 = findViewById(R.id.faqtext4);
+        TextView text5 = findViewById(R.id.faqtext5);
+        TextView text6 = findViewById(R.id.faqtext6);
+        TextView text7 = findViewById(R.id.faqtext7);
+
+        ImageView faqbutton1 = findViewById(R.id.faqbutton1);
+        ImageView faqbutton2 = findViewById(R.id.faqbutton2);
+        ImageView faqbutton3 = findViewById(R.id.faqbutton3);
+        ImageView faqbutton4 = findViewById(R.id.faqbutton4);
+        ImageView faqbutton5 = findViewById(R.id.faqbutton5);
+        ImageView faqbutton6 = findViewById(R.id.faqbutton6);
+        ImageView faqbutton7 = findViewById(R.id.faqbutton7);
+
+        faqbutton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text1.getVisibility() == View.GONE){
+                    text1.setVisibility(View.VISIBLE);
+                    faqbutton1.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text1.setVisibility(View.GONE);
+                    faqbutton1.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        faqbutton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text2.getVisibility() == View.GONE){
+                    text2.setVisibility(View.VISIBLE);
+                    faqbutton2.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text2.setVisibility(View.GONE);
+                    faqbutton2.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        faqbutton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text3.getVisibility() == View.GONE){
+                    text3.setVisibility(View.VISIBLE);
+                    faqbutton3.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text3.setVisibility(View.GONE);
+                    faqbutton3.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        faqbutton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text4.getVisibility() == View.GONE){
+                    text4.setVisibility(View.VISIBLE);
+                    faqbutton4.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text4.setVisibility(View.GONE);
+                    faqbutton4.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        faqbutton5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text5.getVisibility() == View.GONE){
+                    text5.setVisibility(View.VISIBLE);
+                    faqbutton5.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text5.setVisibility(View.GONE);
+                    faqbutton5.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        faqbutton6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text6.getVisibility() == View.GONE){
+                    text6.setVisibility(View.VISIBLE);
+                    faqbutton6.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text6.setVisibility(View.GONE);
+                    faqbutton6.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        faqbutton7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (text7.getVisibility() == View.GONE){
+                    text7.setVisibility(View.VISIBLE);
+                    faqbutton7.setImageResource(R.drawable.ic_up1);
+                } else {
+                    text7.setVisibility(View.GONE);
+                    faqbutton7.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
 
         sidebar_open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,10 +247,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 auth.signOut();
-                Intent intent = new Intent(MainActivity.this, Login.class);
+                Intent intent = new Intent(Manual.this, Login.class);
                 startActivity(intent);
                 finish();
-                Toast.makeText(MainActivity.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Manual.this, "Logout Successful", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -176,15 +284,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-
-            }
-        });
-
     }
     private void requestPermission(){
 
@@ -214,106 +313,6 @@ public class MainActivity extends AppCompatActivity {
             mPermissionResultLauncher.launch(permissionRequest.toArray(new String[0]));
         }
 
-
-    }
-    @SuppressLint({"CutPasteId", "UseCompatLoadingForDrawables"})
-    private void showDialog() {
-
-        final Dialog sheetDialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheetStyle);
-        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_dialog,
-                (LinearLayout) findViewById(R.id.sheet));
-        sheetDialog.setContentView(view);
-        Button paramedbtn;
-        Button firedeptbtn;
-        Button policebtn;
-        Button firebtn;
-        Button quakebtn;
-
-        textView = sheetDialog.findViewById(R.id.high);
-        user = auth.getCurrentUser();
-
-        paramedbtn = sheetDialog.findViewById(R.id.paramed_call);
-        firedeptbtn = sheetDialog.findViewById(R.id.firedept_call);
-        policebtn = sheetDialog.findViewById(R.id.police_call);
-        firebtn = sheetDialog.findViewById(R.id.fire_alarm);
-        quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
-
-        if (user.getUid().equalsIgnoreCase("S7zbixlCOJfUtgVJPuXhG3adJ3q1")){
-            textView.setText("ADMIN");
-        }
-
-        firebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(!firebutton){
-                    firebutton=true;
-                    firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
-                    mDatabase.child("FIRE_STATUS").setValue(firebutton);
-                }
-                else{
-                    firebutton=false;
-                    firebtn.setBackground(getResources().getDrawable(R.drawable.def_fire));
-                    quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
-                    mDatabase.child("FIRE_STATUS").setValue(firebutton);
-                }
-            }
-
-        });
-        quakebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!quakebutton){
-                    quakebutton=true;
-                    quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
-                    mDatabase.child("EARTHQUAKE_STATUS").setValue(quakebutton);
-                }
-                else{
-                    quakebutton=false;
-                    quakebtn.setBackground(getResources().getDrawable(R.drawable.def_quake));
-                    firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
-                    mDatabase.child("EARTHQUAKE_STATUS").setValue(quakebutton);
-                }
-            }
-
-        });
-
-
-        policebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:4185400"));
-                startActivity(intent);
-            }
-
-        });
-
-
-        firedeptbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:56416540"));
-                startActivity(intent);
-            }
-
-        });
-
-
-
-        paramedbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:56416540"));
-                startActivity(intent);
-            }
-
-        });
-
-
-        sheetDialog.show();
 
     }
 

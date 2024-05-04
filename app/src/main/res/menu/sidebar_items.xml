@@ -26,7 +26,7 @@
         android:icon="@drawable/baseline_code_24"
         android:id="@+id/navMenu4"
         android:iconTint="@color/white"
-        android:title="Documentation"/>
+        android:title="Manual"/>
 
     <item
         android:icon="@drawable/baseline_question_mark_24"

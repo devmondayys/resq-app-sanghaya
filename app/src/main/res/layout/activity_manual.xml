@@ -9,14 +9,14 @@
     android:background="@color/black"
     android:orientation="vertical"
     tools:openDrawer="start"
-    tools:context=".Faq">
+    tools:context=".Manual">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
         android:orientation="vertical"
-        tools:context=".Faq">
+        tools:context=".Manual">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,12 +46,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FAQ"
+            android:text="ResQ Manual"
             android:gravity="center"
             android:textColor="@color/white"
             android:fontFamily="@font/bahnschrift"
             android:textSize="50dp"/>
-        
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/productintroduction"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserratreg"
+            android:textSize="13dp"
+            android:layout_marginHorizontal="20dp"
+            android:justificationMode="inter_word"
+            android:lineSpacingExtra="5dp"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -59,21 +70,21 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                
+
                 <TextView
-                    android:id="@+id/faq1"
+                    android:id="@+id/installation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="How does the Automated School \nBell System function?"
+                    android:text="Installation and Setup"
                     android:textStyle="bold"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="130dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton1"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton1"
+                    app:layout_constraintTop_toTopOf="@id/manbutton1"
+                    app:layout_constraintBottom_toBottomOf="@id/manbutton1"
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/faqbutton1"
+                    android:id="@+id/manbutton1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
@@ -83,13 +94,19 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
-                    android:id="@+id/faqtext1"
+                    android:id="@+id/mantext1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq1"
+                    app:layout_constraintTop_toBottomOf="@id/installation"
                     app:layout_constraintStart_toStartOf="parent"
                     android:padding="20dp"
-                    android:text="@string/faq1"
+                    android:text="Step 1: Unbox the Automated School Bell System and ensure all components are present.\n
+Step 2: Connect the system to a power supply located in the ICT room using the provided cables.\n
+Step 3: Turn on the device by flipping the kill switch located on the right side of the box.\n
+Step 4: Once connected, check the LEDs on the device:\n
+      Red LED: Indicates power supply status. Online if on, offline if off.\n
+      Blue LED: Indicates NodeMCU and relay status. Fully functional if on, not fully functional if off.\n
+      Orange LED: Indicates Line-of-Sight (LOS) status. Blinking if maintenance is needed, on if fully functional.\n"
                     android:textColor="@color/white"
                     android:lineSpacingExtra="5dp"
                     android:visibility="gone"/>
@@ -308,21 +325,21 @@
 
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/NavigationView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:padding="0dp"
-        android:theme="@style/SideBarTheme"
-        app:drawerLayoutCornerSize="20dp"
-        app:headerLayout="@layout/sidebar_header"
-        app:itemHorizontalPadding="40dp"
-        app:itemIconPadding="10dp"
-        app:itemIconSize="20dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:itemVerticalPadding="10dp"
-        app:menu="@menu/sidebar_items" />
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/NavigationView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:padding="0dp"-->
+<!--        android:theme="@style/SideBarTheme"-->
+<!--        app:drawerLayoutCornerSize="20dp"-->
+<!--        app:headerLayout="@layout/sidebar_header"-->
+<!--        app:itemHorizontalPadding="40dp"-->
+<!--        app:itemIconPadding="10dp"-->
+<!--        app:itemIconSize="20dp"-->
+<!--        app:itemIconTint="@color/white"-->
+<!--        app:itemTextColor="@color/white"-->
+<!--        app:itemVerticalPadding="10dp"-->
+<!--        app:menu="@menu/sidebar_items" />-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

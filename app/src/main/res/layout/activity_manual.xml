@@ -55,13 +55,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserratreg"
+            android:justificationMode="inter_word"
+            android:lineSpacingExtra="5dp"
             android:text="@string/productintroduction"
             android:textColor="@color/white"
-            android:fontFamily="@font/montserratreg"
-            android:textSize="13dp"
-            android:layout_marginHorizontal="20dp"
-            android:justificationMode="inter_word"
-            android:lineSpacingExtra="5dp"/>
+            android:textSize="13dp" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -69,7 +70,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/installation"
@@ -77,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:text="Installation and Setup"
                     android:textStyle="bold"
-                    android:layout_marginStart="130dp"
+                    android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/manbutton1"
                     app:layout_constraintBottom_toBottomOf="@id/manbutton1"
@@ -89,7 +91,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="0dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -100,10 +102,7 @@
                     app:layout_constraintTop_toBottomOf="@id/installation"
                     app:layout_constraintStart_toStartOf="parent"
                     android:padding="20dp"
-                    android:text="Step 1: Unbox the Automated School Bell System and ensure all components are present.\n
-Step 2: Connect the system to a power supply located in the ICT room using the provided cables.\n
-Step 3: Turn on the device by flipping the kill switch located on the right side of the box.\n
-Step 4: Once connected, check the LEDs on the device:\n
+                    android:text="Step 1: Unbox the Automated School Bell System and ensure all components are present.\nStep 2: Connect the system to a power supply located in the ICT room using the provided cables.\nStep 3: Turn on the device by flipping the kill switch located on the right side of the box.\nStep 4: Once connected, check the LEDs on the device:\n
       Red LED: Indicates power supply status. Online if on, offline if off.\n
       Blue LED: Indicates NodeMCU and relay status. Fully functional if on, not fully functional if off.\n
       Orange LED: Indicates Line-of-Sight (LOS) status. Blinking if maintenance is needed, on if fully functional.\n"
@@ -112,234 +111,186 @@ Step 4: Once connected, check the LEDs on the device:\n
                     android:visibility="gone"/>
 
                 <TextView
-                    android:id="@+id/faq2"
+                    android:id="@+id/productfeatures"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="What features does the ResQ app offer?"
+                    android:text="Product Features and Use Cases"
                     android:textStyle="bold"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton2"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton2"
+                    app:layout_constraintTop_toTopOf="@id/manbutton2"
+                    app:layout_constraintBottom_toBottomOf="@id/manbutton2"
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/faqbutton2"
+                    android:id="@+id/manbutton2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext1"
+                    app:layout_constraintTop_toBottomOf="@id/mantext1"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
-                    android:id="@+id/faqtext2"
+                    android:id="@+id/mantext2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq2"
+                    app:layout_constraintTop_toBottomOf="@id/productfeatures"
                     app:layout_constraintStart_toStartOf="parent"
                     android:padding="20dp"
-                    android:text="@string/faq2"
+                    android:text="The automated school bell system offers the following features and use cases\n
+\u2022Automatic ringing at 7:10 and 7:15 in the morning to signal the start of the school day.\n
+\u2022Remote triggering capabilities via the accompanying mobile app, available for download on the Play Store.\n
+\u2022Emergency triggering options for earthquakes and fires, ensuring timely alerts for evacuation."
                     android:textColor="@color/white"
                     android:lineSpacingExtra="5dp"
                     android:visibility="gone"/>
 
                 <TextView
-                    android:id="@+id/faq3"
+                    android:id="@+id/operate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="What steps can I take if the ResQ app \nis not available on the Play Store?"
+                    android:text="How to Operate the Product"
                     android:textStyle="bold"
-                    android:lines="2"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton3"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton3"
+                    app:layout_constraintTop_toTopOf="@id/manbutton3"
+                    app:layout_constraintBottom_toBottomOf="@id/manbutton3"
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/faqbutton3"
+                    android:id="@+id/manbutton3"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext2"
+                    app:layout_constraintTop_toBottomOf="@id/mantext2"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
-                    android:id="@+id/faqtext3"
+                    android:id="@+id/mantext3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq3"
+                    app:layout_constraintTop_toBottomOf="@id/operate"
                     app:layout_constraintStart_toStartOf="parent"
                     android:padding="20dp"
-                    android:text="@string/faq3"
+                    android:text="Preliminary Setup\n
+\u2022Download and install the ResQ app from the Play Store on your mobile phone.\n
+\u2022Open the app and follow the sign-up process, providing your email address and password\n\n
+Power On the Device\n
+\u2022Ensure the device is connected to a power supply in the ICT room using the provided cables.\n
+\u2022Check the red LED indicator on the device. If it's lit, the power supply is online.\n
+\u2022Locate the kill switch on the right side of the device and flip it to the ON position.\n
+\u2022Verify that the blue LED indicator on the device is illuminated. This indicates that the NodeMCU and relay are fully functional.\n
+\u2022If the orange LED is also on, it indicates that the Line-of-Sight (LOS) is functional.\n\n
+Earthquake Alarm Trigger\n
+\u2022Open the ResQ app on your mobile phone.\n
+\u2022Look for the earthquake icon and press it to trigger the bell.\n
+\u2022The device will receive the signal and initiate the bell ringing sequence.\n\n
+Fire Alarm Trigger\n
+\u2022Open the ResQ app on your mobile phone.\n
+\u2022Locate the fire icon and press it to trigger the bell.\n
+\u2022The device will receive the signal and activate the bell ringing sequence."
                     android:textColor="@color/white"
                     android:lineSpacingExtra="5dp"
                     android:visibility="gone"/>
 
                 <TextView
-                    android:id="@+id/faq4"
+                    android:id="@+id/troubleshooting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Can we still manually trigger the alarm?"
+                    android:text="Troubleshooting Tips"
                     android:textStyle="bold"
-                    android:lines="2"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton4"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton4"
+                    app:layout_constraintTop_toTopOf="@id/manbutton4"
+                    app:layout_constraintBottom_toBottomOf="@id/manbutton4"
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/faqbutton4"
+                    android:id="@+id/manbutton4"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext3"
+                    app:layout_constraintTop_toBottomOf="@id/mantext3"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
-                    android:id="@+id/faqtext4"
+                    android:id="@+id/mantext4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq4"
+                    app:layout_constraintTop_toBottomOf="@id/troubleshooting"
                     app:layout_constraintStart_toStartOf="parent"
                     android:padding="20dp"
-                    android:text="@string/faq4"
+                    android:text="Issue 1: Device not powering on\n
+    Solution:\n
+1. Check power supply connections to ensure they are securely plugged into the ICT room power source.\n
+2. Verify that the kill switch located on the right side of the box is turned on.\n
+3. If the red LED indicating power supply status is off, consider replacing the power adapter or checking the power outlet.\n\nIssue 2: LEDs indicating malfunction\n
+    Solution:\n
+1. Refer to the LED functions section to identify which LED(s) are not functioning properly.\n
+2. If the blue LED indicating NodeMCU and relay status is off, check the connections between the NodeMCU and the relay module.\n
+3. If the orange LED indicating LOS status is blinking, it may indicate a need for maintenance, inspect the device for any physical damage or loose connections.\n\nIssue 3: Inability to trigger the bell remotely via ResQ app\n
+    Solution:\n
+1. Ensure that the ResQ app is installed on your mobile phone and that you have successfully signed up and logged in.\n
+2. Check your internet connection on both the mobile phone and the device.\n
+3. Verify that the device is powered on and fully functional, as indicated by the LEDs.\n
+4. Confirm that the ResQ app is allowed to access your device's location services if required for triggering alarms.\n\nIssue 4: Remote triggering not working for earthquake alarm\n
+1. Open the ResQ app and ensure that you are selecting the correct icon for triggering the earthquake alarm.\n
+2. Check the internet connection on your mobile phone and ensure it is stable.\n
+3. If the device is not responding, try restarting the app and attempting the trigger again.\n\nIssue 5: Remote triggering not working for fire alarm\n
+    Solution:\n
+1. Open the ResQ app and ensure that you are selecting the correct icon for triggering the fire alarm.\n
+2. Check the internet connection on your mobile phone and ensure it is stable.\n
+3. If the device is not responding, try restarting the app and attempting the trigger again.\n\nIssue 6: Bell ringing at incorrect times or not ringing at all\n
+    Solution:\n
+1. Verify that the device's internal clock is set correctly.\n
+2. Check the programming for the automated ringing time, ensuring it is set to 7:10 and 7:15  in the morning.\n
+3. If the issue persists, restart the device and monitor its behavior.\n\nIssue 7: Inconsistent power supply to the device\n
+    Solution:\n
+1. Check the power supply connections for any loose cables or damaged connectors.\n
+2. Consider using a backup power source or uninterruptible power supply (UPS) to ensure stable power delivery.\n
+3. If power fluctuations are frequent, consult with an electrician to assess and rectify any electrical issues in the ICT room.\n\nIssue 8: ResQ app not available on the Play Store\n
+    Solution:\n
+1. Ensure that you are searching for the correct app name, 'ResQ', on the Play Store.\n
+2. If the app is still not found, contact the app developer or administrator to confirm its availability in your region.\n\nIssue 9: ResQ app login credentials not working\n
+    Solution:\n
+1. Double-check that you are entering the correct email address and password associated with your ResQ account.\n
+2. If you have forgotten your password, use the 'Forgot Password' option in the app to reset it.\n
+3. Ensure that your internet connection is stable during the login process.\n\nIssue 10: Device not responding to remote triggers despite functional LEDs\n
+    Solution:\n
+1. Restart the device by turning it off and then back on again.\n
+2. Verify that the ResQ app is sending the trigger commands correctly by checking for any error messages or confirmation prompts.\n
+3. If the issue persists, reset the device to its factory settings and reconfigure it according to the setup instructions."
                     android:textColor="@color/white"
                     android:lineSpacingExtra="5dp"
                     android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/faq5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Why might remote triggering via the ResQ app \nnot work for earthquake or fire alarms? "
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton5"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton5"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext4"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq5"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/faq6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="How do I trigger the bell remotely \nin case of an earthquake or fire?"
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton6"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton6"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext5"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq6"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq6"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/faq7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="What should I do if the bell rings at \nincorrect times or not at all?"
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton7"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton7"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton7"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext6"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq7"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq7"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
     </LinearLayout>
 
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:id="@+id/NavigationView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="start"-->
-<!--        android:padding="0dp"-->
-<!--        android:theme="@style/SideBarTheme"-->
-<!--        app:drawerLayoutCornerSize="20dp"-->
-<!--        app:headerLayout="@layout/sidebar_header"-->
-<!--        app:itemHorizontalPadding="40dp"-->
-<!--        app:itemIconPadding="10dp"-->
-<!--        app:itemIconSize="20dp"-->
-<!--        app:itemIconTint="@color/white"-->
-<!--        app:itemTextColor="@color/white"-->
-<!--        app:itemVerticalPadding="10dp"-->
-<!--        app:menu="@menu/sidebar_items" />-->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:padding="0dp"
+        android:theme="@style/SideBarTheme"
+        app:drawerLayoutCornerSize="20dp"
+        app:headerLayout="@layout/sidebar_header"
+        app:itemHorizontalPadding="40dp"
+        app:itemIconPadding="10dp"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:itemVerticalPadding="10dp"
+        app:menu="@menu/sidebar_items" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

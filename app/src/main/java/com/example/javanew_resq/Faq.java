@@ -217,7 +217,8 @@ public class Faq extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navMenu) {
-                    drawerLayout.close();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 }
 
                 if (itemId == R.id.navMenu2) {
@@ -231,8 +232,7 @@ public class Faq extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navMenu5) {
-                    Intent intent = new Intent(getApplicationContext(), Faq.class);
-                    startActivity(intent);
+                    drawerLayout.close();
                 }
                 return false;
             }

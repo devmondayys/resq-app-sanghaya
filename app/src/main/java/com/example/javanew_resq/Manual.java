@@ -64,9 +64,6 @@ public class Manual extends AppCompatActivity {
     DrawerLayout drawerLayout;
     Button sidebar_open;
     NavigationView navigationView;
-    String[] item = {"The system automatically rings at 7:10 to remind students of the time 7:15 to indicate the start of the flag ceremony and listing of tardiness in the morning. It also offers remote triggering capabilities via the ResQ app for emergency situations like earthquakes and fires. "};
-    AutoCompleteTextView autoCompleteTextView;
-    ArrayAdapter<String> adapterText;
 
 
 
@@ -96,109 +93,64 @@ public class Manual extends AppCompatActivity {
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
 
-        TextView text1 = findViewById(R.id.faqtext1);
-        TextView text2 = findViewById(R.id.faqtext2);
-        TextView text3 = findViewById(R.id.faqtext3);
-        TextView text4 = findViewById(R.id.faqtext4);
-        TextView text5 = findViewById(R.id.faqtext5);
-        TextView text6 = findViewById(R.id.faqtext6);
-        TextView text7 = findViewById(R.id.faqtext7);
+        TextView text1 = findViewById(R.id.mantext1);
+        TextView text2 = findViewById(R.id.mantext2);
+        TextView text3 = findViewById(R.id.mantext3);
+        TextView text4 = findViewById(R.id.mantext4);
 
-        ImageView faqbutton1 = findViewById(R.id.faqbutton1);
-        ImageView faqbutton2 = findViewById(R.id.faqbutton2);
-        ImageView faqbutton3 = findViewById(R.id.faqbutton3);
-        ImageView faqbutton4 = findViewById(R.id.faqbutton4);
-        ImageView faqbutton5 = findViewById(R.id.faqbutton5);
-        ImageView faqbutton6 = findViewById(R.id.faqbutton6);
-        ImageView faqbutton7 = findViewById(R.id.faqbutton7);
+        ImageView manbutton1 = findViewById(R.id.manbutton1);
+        ImageView manbutton2 = findViewById(R.id.manbutton2);
+        ImageView manbutton3 = findViewById(R.id.manbutton3);
+        ImageView manbutton4 = findViewById(R.id.manbutton4);
 
-        faqbutton1.setOnClickListener(new View.OnClickListener() {
+        manbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (text1.getVisibility() == View.GONE){
                     text1.setVisibility(View.VISIBLE);
-                    faqbutton1.setImageResource(R.drawable.ic_up1);
+                    manbutton1.setImageResource(R.drawable.ic_up1);
                 } else {
                     text1.setVisibility(View.GONE);
-                    faqbutton1.setImageResource(R.drawable.ic_down1);
+                    manbutton1.setImageResource(R.drawable.ic_down1);
                 }
             }
         });
 
-        faqbutton2.setOnClickListener(new View.OnClickListener() {
+        manbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (text2.getVisibility() == View.GONE){
                     text2.setVisibility(View.VISIBLE);
-                    faqbutton2.setImageResource(R.drawable.ic_up1);
+                    manbutton2.setImageResource(R.drawable.ic_up1);
                 } else {
                     text2.setVisibility(View.GONE);
-                    faqbutton2.setImageResource(R.drawable.ic_down1);
+                    manbutton2.setImageResource(R.drawable.ic_down1);
                 }
             }
         });
 
-        faqbutton3.setOnClickListener(new View.OnClickListener() {
+        manbutton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (text3.getVisibility() == View.GONE){
                     text3.setVisibility(View.VISIBLE);
-                    faqbutton3.setImageResource(R.drawable.ic_up1);
+                    manbutton3.setImageResource(R.drawable.ic_up1);
                 } else {
                     text3.setVisibility(View.GONE);
-                    faqbutton3.setImageResource(R.drawable.ic_down1);
+                    manbutton3.setImageResource(R.drawable.ic_down1);
                 }
             }
         });
 
-        faqbutton4.setOnClickListener(new View.OnClickListener() {
+        manbutton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (text4.getVisibility() == View.GONE){
                     text4.setVisibility(View.VISIBLE);
-                    faqbutton4.setImageResource(R.drawable.ic_up1);
+                    manbutton4.setImageResource(R.drawable.ic_up1);
                 } else {
                     text4.setVisibility(View.GONE);
-                    faqbutton4.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text5.getVisibility() == View.GONE){
-                    text5.setVisibility(View.VISIBLE);
-                    faqbutton5.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text5.setVisibility(View.GONE);
-                    faqbutton5.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text6.getVisibility() == View.GONE){
-                    text6.setVisibility(View.VISIBLE);
-                    faqbutton6.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text6.setVisibility(View.GONE);
-                    faqbutton6.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text7.getVisibility() == View.GONE){
-                    text7.setVisibility(View.VISIBLE);
-                    faqbutton7.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text7.setVisibility(View.GONE);
-                    faqbutton7.setImageResource(R.drawable.ic_down1);
+                    manbutton4.setImageResource(R.drawable.ic_down1);
                 }
             }
         });
@@ -217,7 +169,8 @@ public class Manual extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navMenu) {
-                    drawerLayout.close();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 }
 
                 if (itemId == R.id.navMenu2) {
@@ -226,8 +179,7 @@ public class Manual extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navMenu4) {
-                    Intent intent = new Intent(getApplicationContext(), Manual.class);
-                    startActivity(intent);
+                    drawerLayout.close();
                 }
 
                 if (itemId == R.id.navMenu5) {

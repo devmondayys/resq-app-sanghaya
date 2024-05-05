@@ -46,11 +46,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FAQ"
+            android:text="ResQ FAQs"
             android:gravity="center"
             android:textColor="@color/white"
             android:fontFamily="@font/bahnschrift"
             android:textSize="50dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserratreg"
+            android:justificationMode="inter_word"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/faqintro"
+            android:textColor="@color/white"
+            android:textSize="13dp" />
         
         <ScrollView
             android:layout_width="match_parent"

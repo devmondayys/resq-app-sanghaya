@@ -25,6 +25,10 @@
             android:exported="false"
             android:theme="@style/Theme.JavaNew_ResQ" />
         <activity
+            android:name=".Manual"
+            android:exported="false"
+            android:theme="@style/Theme.JavaNew_ResQ" />
+        <activity
             android:name=".Faq"
             android:exported="false"
             android:theme="@style/Theme.JavaNew_ResQ" />

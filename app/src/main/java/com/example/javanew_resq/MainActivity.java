@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
 
         if (user.getUid().equalsIgnoreCase("S7zbixlCOJfUtgVJPuXhG3adJ3q1")){
-            textView.setText("ADMIN");
+            textView.setText("Call Authorities");
         }
 
         firebtn.setOnClickListener(new View.OnClickListener() {

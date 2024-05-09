@@ -1,18 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings2"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:openDrawer="start"
+    tools:context=".Settings2">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Settings View"
-        android:textColor="@color/white"
-        android:textSize="30sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical"
+        tools:context=".Settings2">
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sidebar_open"
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/baseline_menu_24" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/logout"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="280dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/logout_buttton"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/bahnschrift"
+            android:textSize="50dp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/faq1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="How does the Automated School \nBell System function?"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton1"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton1"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq1"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/faq2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What features does the ResQ app offer?"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton2"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton2"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/faqtext1"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq2"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/faq3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What steps can I take if the ResQ app \nis not available on the Play Store?"
+                    android:textStyle="bold"
+                    android:lines="2"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton3"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton3"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/faqtext2"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq3"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/faq4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Can we still manually trigger the alarm?"
+                    android:textStyle="bold"
+                    android:lines="2"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton4"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton4"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/faqtext3"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq4"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/faq5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Why might remote triggering via the ResQ app \nnot work for earthquake or fire alarms? "
+                    android:textStyle="bold"
+                    android:lines="2"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton5"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton5"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/faqtext4"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq5"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/faq6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="How do I trigger the bell remotely \nin case of an earthquake or fire?"
+                    android:textStyle="bold"
+                    android:lines="2"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton6"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton6"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/faqtext5"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq6"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/faq7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What should I do if the bell rings at \nincorrect times or not at all?"
+                    android:textStyle="bold"
+                    android:lines="2"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/faqbutton7"
+                    app:layout_constraintBottom_toBottomOf="@id/faqbutton7"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/faqbutton7"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_down1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/faqtext6"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/faqtext7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faq7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:padding="20dp"
+                    android:text="@string/faq7"
+                    android:textColor="@color/white"
+                    android:lineSpacingExtra="5dp"
+                    android:visibility="gone"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/NavigationView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:padding="0dp"-->
+<!--        android:theme="@style/SideBarTheme"-->
+<!--        app:drawerLayoutCornerSize="20dp"-->
+<!--        app:headerLayout="@layout/sidebar_header"-->
+<!--        app:itemHorizontalPadding="40dp"-->
+<!--        app:itemIconPadding="10dp"-->
+<!--        app:itemIconSize="20dp"-->
+<!--        app:itemIconTint="@color/white"-->
+<!--        app:itemTextColor="@color/white"-->
+<!--        app:itemVerticalPadding="10dp"-->
+<!--        app:menu="@menu/sidebar_items" />-->
+
+</androidx.drawerlayout.widget.DrawerLayout>

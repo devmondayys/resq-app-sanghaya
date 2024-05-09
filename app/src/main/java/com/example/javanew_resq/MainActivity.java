@@ -4,7 +4,9 @@ package com.example.javanew_resq;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         sidebar_open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +183,22 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                builder.setTitle("Alert!")
+                        .setMessage("Please confirm activation of the alarm system for the emergency.")
+                        .setCancelable(true)
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                showDialog();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.cancel();
+                            }
+                        })
+                        .show();
 
             }
         });
@@ -228,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
         Button policebtn;
         Button firebtn;
         Button quakebtn;
+        AlertDialog.Builder builder;
 
         textView = sheetDialog.findViewById(R.id.high);
         user = auth.getCurrentUser();
@@ -237,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
         policebtn = sheetDialog.findViewById(R.id.police_call);
         firebtn = sheetDialog.findViewById(R.id.fire_alarm);
         quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
+        int firevalue = 0;
+        int quakevalue = 0;
 
         if (user.getUid().equalsIgnoreCase("S7zbixlCOJfUtgVJPuXhG3adJ3q1")){
             textView.setText("Call Authorities");
@@ -246,16 +267,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!firebutton){
+            if(!firebutton){
                     firebutton=true;
                     firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
-                    mDatabase.child("FIRE_STATUS").setValue(firebutton);
+                    mDatabase.child("ev").setValue(0);
+
                 }
                 else{
                     firebutton=false;
                     firebtn.setBackground(getResources().getDrawable(R.drawable.def_fire));
                     quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
-                    mDatabase.child("FIRE_STATUS").setValue(firebutton);
+                    mDatabase.child("ev").setValue(1);
                 }
             }
 
@@ -266,13 +288,13 @@ public class MainActivity extends AppCompatActivity {
                 if(!quakebutton){
                     quakebutton=true;
                     quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
-                    mDatabase.child("EARTHQUAKE_STATUS").setValue(quakebutton);
+                    mDatabase.child("qv").setValue(0);
                 }
                 else{
                     quakebutton=false;
                     quakebtn.setBackground(getResources().getDrawable(R.drawable.def_quake));
                     firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
-                    mDatabase.child("EARTHQUAKE_STATUS").setValue(quakebutton);
+                    mDatabase.child("qv").setValue(1);
                 }
             }
 

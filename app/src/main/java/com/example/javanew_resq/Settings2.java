@@ -4,7 +4,9 @@ package com.example.javanew_resq;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -51,6 +54,7 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,6 +71,8 @@ public class Settings2 extends AppCompatActivity {
     String[] item = {"The system automatically rings at 7:10 to remind students of the time 7:15 to indicate the start of the flag ceremony and listing of tardiness in the morning. It also offers remote triggering capabilities via the ResQ app for emergency situations like earthquakes and fires. "};
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterText;
+    Button timeButton;
+    int hour, minute;
 
 
 
@@ -95,110 +101,39 @@ public class Settings2 extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
+        timeButton = findViewById(R.id.timeButton);
 
-        TextView text1 = findViewById(R.id.faqtext1);
-        TextView text2 = findViewById(R.id.faqtext2);
-        TextView text3 = findViewById(R.id.faqtext3);
-        TextView text4 = findViewById(R.id.faqtext4);
-        TextView text5 = findViewById(R.id.faqtext5);
-        TextView text6 = findViewById(R.id.faqtext6);
-        TextView text7 = findViewById(R.id.faqtext7);
+        TextView text1 = findViewById(R.id.wifi_et);
+        TextView text2 = findViewById(R.id.passwifi_et);
 
-        ImageView faqbutton1 = findViewById(R.id.faqbutton1);
-        ImageView faqbutton2 = findViewById(R.id.faqbutton2);
-        ImageView faqbutton3 = findViewById(R.id.faqbutton3);
-        ImageView faqbutton4 = findViewById(R.id.faqbutton4);
-        ImageView faqbutton5 = findViewById(R.id.faqbutton5);
-        ImageView faqbutton6 = findViewById(R.id.faqbutton6);
-        ImageView faqbutton7 = findViewById(R.id.faqbutton7);
+        ImageView setbutton1 = findViewById(R.id.setbutton1);
+        ImageView setbutton2 = findViewById(R.id.setbutton2);
 
-        faqbutton1.setOnClickListener(new View.OnClickListener() {
+        setbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (text1.getVisibility() == View.GONE){
                     text1.setVisibility(View.VISIBLE);
-                    faqbutton1.setImageResource(R.drawable.ic_up1);
+                    text2.getVisibility();
+                    text2.setVisibility(View.VISIBLE);
+                    setbutton1.setImageResource(R.drawable.ic_up1);
                 } else {
                     text1.setVisibility(View.GONE);
-                    faqbutton1.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text2.getVisibility() == View.GONE){
-                    text2.setVisibility(View.VISIBLE);
-                    faqbutton2.setImageResource(R.drawable.ic_up1);
-                } else {
                     text2.setVisibility(View.GONE);
-                    faqbutton2.setImageResource(R.drawable.ic_down1);
+                    setbutton1.setImageResource(R.drawable.ic_down1);
                 }
             }
         });
 
-        faqbutton3.setOnClickListener(new View.OnClickListener() {
+        setbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (text3.getVisibility() == View.GONE){
-                    text3.setVisibility(View.VISIBLE);
-                    faqbutton3.setImageResource(R.drawable.ic_up1);
+                if (timeButton.getVisibility() == View.GONE){
+                    timeButton.setVisibility(View.VISIBLE);
+                    setbutton2.setImageResource(R.drawable.ic_up1);
                 } else {
-                    text3.setVisibility(View.GONE);
-                    faqbutton3.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text4.getVisibility() == View.GONE){
-                    text4.setVisibility(View.VISIBLE);
-                    faqbutton4.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text4.setVisibility(View.GONE);
-                    faqbutton4.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text5.getVisibility() == View.GONE){
-                    text5.setVisibility(View.VISIBLE);
-                    faqbutton5.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text5.setVisibility(View.GONE);
-                    faqbutton5.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text6.getVisibility() == View.GONE){
-                    text6.setVisibility(View.VISIBLE);
-                    faqbutton6.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text6.setVisibility(View.GONE);
-                    faqbutton6.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        faqbutton7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text7.getVisibility() == View.GONE){
-                    text7.setVisibility(View.VISIBLE);
-                    faqbutton7.setImageResource(R.drawable.ic_up1);
-                } else {
-                    text7.setVisibility(View.GONE);
-                    faqbutton7.setImageResource(R.drawable.ic_down1);
+                    timeButton.setVisibility(View.GONE);
+                    setbutton2.setImageResource(R.drawable.ic_down1);
                 }
             }
         });
@@ -222,8 +157,7 @@ public class Settings2 extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navMenu2) {
-                    Intent intent = new Intent(getApplicationContext(), Settings2.class);
-                    startActivity(intent);
+                    drawerLayout.close();
                 }
 
                 if (itemId == R.id.navMenu4) {
@@ -232,7 +166,8 @@ public class Settings2 extends AppCompatActivity {
                 }
 
                 if (itemId == R.id.navMenu5) {
-                    drawerLayout.close();
+                    Intent intent = new Intent(getApplicationContext(), Faq.class);
+                    startActivity(intent);
                 }
                 return false;
             }
@@ -314,6 +249,27 @@ public class Settings2 extends AppCompatActivity {
         }
 
 
+    }
+
+    public void popTimePicker(View view)
+    {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
+            {
+                hour = selectedHour;
+                minute = selectedMinute;
+                timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
+            }
+        };
+
+        int style = AlertDialog.THEME_HOLO_DARK;
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, true);
+
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
     }
 
 }

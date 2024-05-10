@@ -61,19 +61,19 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/faq1"
+                    android:id="@+id/settings1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="How does the Automated School \nBell System function?"
+                    android:text="Change the wifi used by the system"
                     android:textStyle="bold"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton1"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton1"
+                    app:layout_constraintTop_toTopOf="@id/setbutton1"
+                    app:layout_constraintBottom_toBottomOf="@id/setbutton1"
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/faqbutton1"
+                    android:id="@+id/setbutton1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
@@ -82,247 +82,106 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/faqtext1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq1"
+                <EditText
+                    android:id="@+id/wifi_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/baseline_wifi_24"
+                    android:drawablePadding="12dp"
+                    android:hint="Wifi SSID"
+                    android:inputType="text"
                     android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
+                    android:textSize="14sp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/settings1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/passwifi_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/baseline_lock_outline_24"
+                    android:drawablePadding="12dp"
+                    android:hint="Wifi Password"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/wifi_et"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:visibility="gone"/>
 
                 <TextView
-                    android:id="@+id/faq2"
+                    android:id="@+id/settings2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="What features does the ResQ app offer?"
+                    android:text="Set the time for morning assembly."
                     android:textStyle="bold"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton2"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton2"
+                    app:layout_constraintTop_toTopOf="@id/setbutton2"
+                    app:layout_constraintBottom_toBottomOf="@id/setbutton2"
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/faqbutton2"
+                    android:id="@+id/setbutton2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_down1"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext1"
+                    app:layout_constraintTop_toBottomOf="@id/passwifi_et"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/faqtext2"
+                <Button
+                    android:id="@+id/timeButton"
+                    android:onClick="popTimePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq2"
+                    android:hint="Select Time"
                     android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
+                    android:textColorHint="@color/white"
+                    android:textSize="15sp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/settings2"
+                    app:layout_constraintVertical_bias="0.1"
+                    android:background="@drawable/rounded_corner"
+                    android:layout_marginTop="15dp"
                     android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/faq3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="What steps can I take if the ResQ app \nis not available on the Play Store?"
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton3"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton3"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext2"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq3"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/faq4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Can we still manually trigger the alarm?"
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton4"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton4"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext3"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq4"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/faq5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Why might remote triggering via the ResQ app \nnot work for earthquake or fire alarms? "
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton5"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton5"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext4"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq5"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/faq6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="How do I trigger the bell remotely \nin case of an earthquake or fire?"
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton6"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton6"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext5"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq6"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq6"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/faq7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="What should I do if the bell rings at \nincorrect times or not at all?"
-                    android:textStyle="bold"
-                    android:lines="2"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/faqbutton7"
-                    app:layout_constraintBottom_toBottomOf="@id/faqbutton7"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/faqbutton7"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqtext6"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/faqtext7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/faq7"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="20dp"
-                    android:text="@string/faq7"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:visibility="gone"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
     </LinearLayout>
 
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:id="@+id/NavigationView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="start"-->
-<!--        android:padding="0dp"-->
-<!--        android:theme="@style/SideBarTheme"-->
-<!--        app:drawerLayoutCornerSize="20dp"-->
-<!--        app:headerLayout="@layout/sidebar_header"-->
-<!--        app:itemHorizontalPadding="40dp"-->
-<!--        app:itemIconPadding="10dp"-->
-<!--        app:itemIconSize="20dp"-->
-<!--        app:itemIconTint="@color/white"-->
-<!--        app:itemTextColor="@color/white"-->
-<!--        app:itemVerticalPadding="10dp"-->
-<!--        app:menu="@menu/sidebar_items" />-->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:padding="0dp"
+        android:theme="@style/SideBarTheme"
+        app:drawerLayoutCornerSize="20dp"
+        app:headerLayout="@layout/sidebar_header"
+        app:itemHorizontalPadding="40dp"
+        app:itemIconPadding="10dp"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:itemVerticalPadding="10dp"
+        app:menu="@menu/sidebar_items" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

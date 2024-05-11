@@ -105,6 +105,7 @@ public class Settings2 extends AppCompatActivity {
 
         TextView text1 = findViewById(R.id.wifi_et);
         TextView text2 = findViewById(R.id.passwifi_et);
+        Button wifibutton = findViewById(R.id.WifiSubmit);
 
         ImageView setbutton1 = findViewById(R.id.setbutton1);
         ImageView setbutton2 = findViewById(R.id.setbutton2);
@@ -116,10 +117,13 @@ public class Settings2 extends AppCompatActivity {
                     text1.setVisibility(View.VISIBLE);
                     text2.getVisibility();
                     text2.setVisibility(View.VISIBLE);
+                    wifibutton.getVisibility();
+                    wifibutton.setVisibility(View.VISIBLE);
                     setbutton1.setImageResource(R.drawable.ic_up1);
                 } else {
                     text1.setVisibility(View.GONE);
                     text2.setVisibility(View.GONE);
+                    wifibutton.setVisibility(View.GONE);
                     setbutton1.setImageResource(R.drawable.ic_down1);
                 }
             }

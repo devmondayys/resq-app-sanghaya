@@ -38,6 +38,8 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
@@ -52,7 +54,9 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
+import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -107,13 +111,15 @@ public class Settings2 extends AppCompatActivity {
         TextView text2 = findViewById(R.id.passwifi_et);
         Button wifibutton = findViewById(R.id.WifiSubmit);
 
+        int mHour, mMinute;
+
         ImageView setbutton1 = findViewById(R.id.setbutton1);
         ImageView setbutton2 = findViewById(R.id.setbutton2);
 
         setbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (text1.getVisibility() == View.GONE){
+                if (text1.getVisibility() == View.GONE) {
                     text1.setVisibility(View.VISIBLE);
                     text2.getVisibility();
                     text2.setVisibility(View.VISIBLE);
@@ -126,6 +132,78 @@ public class Settings2 extends AppCompatActivity {
                     wifibutton.setVisibility(View.GONE);
                     setbutton1.setImageResource(R.drawable.ic_down1);
                 }
+            }
+        });
+        wifibutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the text from the SSID and password input fields
+                String ssid = text1.getText().toString().trim();
+                String password = text2.getText().toString().trim();
+
+                // Check if SSID and password are not empty
+                if (!ssid.isEmpty() && !password.isEmpty()) {
+                    // Construct the database path
+                    String wifiPath = "Wifi/ssid";
+                    String wifipassPath = "Wifi/passkey";
+
+                    // Update the database with SSID and password
+                    mDatabase.child(wifiPath).setValue(ssid)
+                            .addOnSuccessListener(aVoid -> {
+                                // Database update successful
+                                Toast.makeText(Settings2.this, "Wi-Fi credentials updated successfully.", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Database update failed
+                                Toast.makeText(Settings2.this, "Failed to update Wi-Fi credentials.", Toast.LENGTH_SHORT).show();
+                            });
+                    mDatabase.child(wifipassPath).setValue(password)
+                            .addOnSuccessListener(aVoid -> {
+                                // Database update successful
+                                Toast.makeText(Settings2.this, "Wi-Fi credentials updated successfully.", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Database update failed
+                                Toast.makeText(Settings2.this, "Failed to update Wi-Fi credentials.", Toast.LENGTH_SHORT).show();
+                            });
+                } else {
+                    // SSID or password is empty
+                    Toast.makeText(Settings2.this, "Please enter SSID and password.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        TextView my_Time = findViewById(R.id.timeButton);
+
+        timeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                Task<DataSnapshot> currhr = mDatabase.child("alarm/hours").get();
+                Task<DataSnapshot> currmins = mDatabase.child("alarm/minutes").get();
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(Settings2.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        timePicker.setIs24HourView(true);
+                        String am_pm = (selectedHour < 12) ? "AM" : "PM";
+                        int hour_of_12_hour_format = (selectedHour == 0 || selectedHour == 12) ? 12 : selectedHour % 12;
+                        my_Time.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour_of_12_hour_format, selectedMinute, am_pm));
+                        my_Time.setText( selectedHour + ":" + selectedMinute);
+                        mDatabase.child("alarm/hours").setValue(selectedHour);
+                        mDatabase.child("alarm/minutes").setValue(selectedMinute);
+
+                    }
+                }, hour, minute, false);
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
             }
         });
 
@@ -163,7 +241,13 @@ public class Settings2 extends AppCompatActivity {
                 if (itemId == R.id.navMenu2) {
                     drawerLayout.close();
                 }
+                if (itemId == R.id.navMenu3) {
+                    String url = "https://console.firebase.google.com/u/7/project/resqdtb/database/resqdtb-default-rtdb/data";
 
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
                 if (itemId == R.id.navMenu4) {
                     Intent intent = new Intent(getApplicationContext(), Manual.class);
                     startActivity(intent);

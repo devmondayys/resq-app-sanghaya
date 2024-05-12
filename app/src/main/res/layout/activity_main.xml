@@ -10,6 +10,7 @@
     tools:openDrawer="start"
     tools:context=".MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,24 +23,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DEFAULT"
-            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:visibility="gone" />
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bahnschrift"
+            android:text="DEFAULT"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="-40dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/sidebar_open"
                 android:layout_width="22dp"
-                android:layout_height="match_parent"
+                android:layout_height="22dp"
                 android:layout_marginStart="40dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/baseline_menu_24" />
+                android:background="@drawable/baseline_menu_24"
+                android:backgroundTint="@color/white" />
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/logout"
@@ -47,16 +63,15 @@
                 android:layout_height="22dp"
                 android:layout_marginStart="280dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/logout_buttton"/>
+                android:background="@drawable/logout_buttton" />
 
         </LinearLayout>
-
         <TextView
             android:id="@+id/emer_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/bahnschrift"
             android:text="@string/emergency"
             android:textColor="#808080"
@@ -71,7 +86,62 @@
             android:background="@drawable/alert_icon"
             android:gravity="center_vertical" />
 
+        <TextView
+            android:id="@+id/conndeet"
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/bahnschrift"
+            android:text="ssid"
+            android:textColor="#808080"
+            android:textSize="16dp" />
+
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="560dp"
+        android:gravity="center|top">
+
+        <ImageView
+            android:id="@id/status_light"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/baseline_circle_24"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="3dp" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bahnschrift"
+            android:text="Device Status"
+            android:textColor="#808080"
+            android:textSize="16dp" />
+        <ImageView
+            android:id="@id/connection"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/baseline_circle_24"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="3dp"/>
+        <TextView
+            android:id="@+id/wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bahnschrift"
+            android:text="Wifi Status"
+            android:textColor="#808080"
+            android:textSize="16dp"
+            android:layout_marginLeft="2dp" />
+    </LinearLayout>
+
+
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/NavigationView"

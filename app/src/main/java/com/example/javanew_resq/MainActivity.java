@@ -9,9 +9,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
@@ -39,6 +47,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     Button button2;
     TextView textView;
+    TextView textView1;
+    TextView conndeet;
     FirebaseUser user;
+    ImageView status_light;
+    ImageView connection;
     BottomSheetDialog sheetDialog;
     static int PERMISSION_CODE= 100;
     private boolean firebutton = true;
@@ -68,16 +81,19 @@ public class MainActivity extends AppCompatActivity {
     Button sidebar_open;
     NavigationView navigationView;
 
+    private DatabaseReference mDatabase;
+
 
 
     ActivityResultLauncher<String[]> mPermissionResultLauncher;
     private boolean isCallPermissionGranted = false;
     private boolean isLocationPermissionGranted = false;
-    private DatabaseReference mDatabase;
 
     private int PARAMEDIC_LINE;
 
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
+    private Object text;
+    private String title;
 
     @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
@@ -90,13 +106,143 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
-        String admin = "stec.jhsandshs@gmail.com";
-        String maintenance = "resqproject2024@gmail.com";
+
 
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        textView = findViewById(R.id.user);
+        textView1 = findViewById(R.id.emer_title);
+        status_light = findViewById(R.id.status_light);
+        connection = findViewById(R.id.connection);
+        conndeet = findViewById(R.id.conndeet);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("device_status");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Integer value = dataSnapshot.getValue(Integer.class);
+                // Update the TextView with the retrieved value
+                if (value != null) {
+                    // Set different texts based on the value
+                    switch (value) {
+                        case 0:
+                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_off));
+                            break;
+                        case 1:
+                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_starting));
+                            break;
+                        case 2:
+                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_active));
+                            break;
+                        default:
+                            // Set a default text for other values
+                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
+            }
+        });
+
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("wifi_status");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Integer value = dataSnapshot.getValue(Integer.class);
+                // Update the TextView with the retrieved value
+                if (value != null) {
+                    // Set different texts based on the value
+                    switch (value) {
+                        case 0:
+                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_off));
+                            break;
+                        case 1:
+                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_starting));
+                            break;
+                        case 2:
+                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_active));
+                            break;
+                        default:
+                            // Set a default text for other values
+                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
+            }
+        });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Wifi/ssid");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+
+                // Update the TextView with the retrieved value
+                if (value != null) {
+                    // Assuming 'value' is the text retrieved from the database
+                    String connectedText = "Connected to: ";
+                    SpannableString spannableString = new SpannableString(connectedText + value);
+
+// Make the 'value' part bold
+                    StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+                    spannableString.setSpan(boldSpan, connectedText.length(), spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+// Make the 'value' part white
+                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
+                    spannableString.setSpan(colorSpan, connectedText.length(), spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+// Set the SpannableString to the TextView
+                    conndeet.setText(spannableString);
+
+// Set the SpannableString to the TextView
+                    conndeet.setText(spannableString);
+                } else{
+                    conndeet.setText("Connecting...");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                conndeet.setText("Connection Failed");
+            }
+        });
+
+
+
+
+
+
+
+
+        int num = 1;
+        if (user.getUid().equalsIgnoreCase("rcHgvzu9wJTP5k65LlSjFu4KFO93")){
+            textView.setText("ADMIN");
+        } else if (user.getUid().equalsIgnoreCase("xhwQuG9n7XQJ5Jlr9tZq0zuhiyE2")) {
+            textView.setText("MAINTENANCE");
+        } else{
+            textView.setText("DEFAULT");
+        }
+
 
         sidebar_open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +265,13 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), Settings2.class);
                     startActivity(intent);
                 }
+                if (itemId == R.id.navMenu3) {
+                    String url = "https://console.firebase.google.com/u/7/project/resqdtb/database/resqdtb-default-rtdb/data";
 
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
                 if (itemId == R.id.navMenu4) {
                     Intent intent = new Intent(getApplicationContext(), Manual.class);
                     startActivity(intent);
@@ -132,10 +284,11 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+//             Initialize Firebase database
+            mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+            // Attach a listener to read the data at our reference "example"
 
-        DatabaseReference reference = mDatabase.child("PARAMEDIC_LINE");
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +401,6 @@ public class MainActivity extends AppCompatActivity {
         Button quakebtn;
         AlertDialog.Builder builder;
 
-        textView = sheetDialog.findViewById(R.id.high);
         user = auth.getCurrentUser();
 
         paramedbtn = sheetDialog.findViewById(R.id.paramed_call);
@@ -256,12 +408,8 @@ public class MainActivity extends AppCompatActivity {
         policebtn = sheetDialog.findViewById(R.id.police_call);
         firebtn = sheetDialog.findViewById(R.id.fire_alarm);
         quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
-        int firevalue = 0;
-        int quakevalue = 0;
 
-        if (user.getUid().equalsIgnoreCase("S7zbixlCOJfUtgVJPuXhG3adJ3q1")){
-            textView.setText("Call Authorities");
-        }
+
 
         firebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,14 +417,11 @@ public class MainActivity extends AppCompatActivity {
 
             if(!firebutton){
                     firebutton=true;
-                    firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
                     mDatabase.child("ev").setValue(0);
 
                 }
-                else{
+            else{
                     firebutton=false;
-                    firebtn.setBackground(getResources().getDrawable(R.drawable.def_fire));
-                    quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
                     mDatabase.child("ev").setValue(1);
                 }
             }
@@ -287,13 +432,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!quakebutton){
                     quakebutton=true;
-                    quakebtn.setBackground(getResources().getDrawable(R.drawable.act_quake));
                     mDatabase.child("qv").setValue(0);
                 }
                 else{
                     quakebutton=false;
-                    quakebtn.setBackground(getResources().getDrawable(R.drawable.def_quake));
-                    firebtn.setBackground(getResources().getDrawable(R.drawable.act_fire));
                     mDatabase.child("qv").setValue(1);
                 }
             }

@@ -177,7 +177,13 @@ public class Manual extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), Settings2.class);
                     startActivity(intent);
                 }
+                if (itemId == R.id.navMenu3) {
+                    String url = "https://console.firebase.google.com/u/7/project/resqdtb/database/resqdtb-default-rtdb/data";
 
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
                 if (itemId == R.id.navMenu4) {
                     drawerLayout.close();
                 }

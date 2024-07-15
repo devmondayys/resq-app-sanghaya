@@ -447,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:4185400"));
+                intent.setData(Uri.parse("tel:09999721111"));
                 startActivity(intent);
             }
 
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:56416540"));
+                intent.setData(Uri.parse("tel:(032)3400252"));
                 startActivity(intent);
             }
 
@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:56416540"));
+                intent.setData(Uri.parse("tel:09189210000"));
                 startActivity(intent);
             }
 

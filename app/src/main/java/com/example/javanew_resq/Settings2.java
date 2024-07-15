@@ -76,6 +76,7 @@ public class Settings2 extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterText;
     Button timeButton;
+    Button timeButton2;
     int hour, minute;
 
 
@@ -106,6 +107,7 @@ public class Settings2 extends AppCompatActivity {
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
         timeButton = findViewById(R.id.timeButton);
+        timeButton2 = findViewById(R.id.timeButton2);
 
         TextView text1 = findViewById(R.id.wifi_et);
         TextView text2 = findViewById(R.id.passwifi_et);
@@ -115,6 +117,7 @@ public class Settings2 extends AppCompatActivity {
 
         ImageView setbutton1 = findViewById(R.id.setbutton1);
         ImageView setbutton2 = findViewById(R.id.setbutton2);
+        ImageView setbutton3 = findViewById(R.id.setbutton3);
 
         setbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +177,7 @@ public class Settings2 extends AppCompatActivity {
         });
 
         TextView my_Time = findViewById(R.id.timeButton);
+        TextView my_Time2 = findViewById(R.id.timeButton2);
 
         timeButton.setOnClickListener(new View.OnClickListener() {
 
@@ -207,6 +211,38 @@ public class Settings2 extends AppCompatActivity {
             }
         });
 
+        timeButton2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                Task<DataSnapshot> currhr = mDatabase.child("alarm/hours").get();
+                Task<DataSnapshot> currmins = mDatabase.child("alarm/minutes").get();
+
+                TimePickerDialog mTimePicker2;
+                mTimePicker2 = new TimePickerDialog(Settings2.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        timePicker.setIs24HourView(true);
+                        String am_pm = (selectedHour < 12) ? "AM" : "PM";
+                        int hour_of_12_hour_format = (selectedHour == 0 || selectedHour == 12) ? 12 : selectedHour % 12;
+                        my_Time2.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour_of_12_hour_format, selectedMinute, am_pm));
+                        my_Time2.setText( selectedHour + ":" + selectedMinute);
+                        mDatabase.child("alarm/hours").setValue(selectedHour);
+                        mDatabase.child("alarm/minutes").setValue(selectedMinute);
+
+                    }
+                }, hour, minute, false);
+                mTimePicker2.setTitle("Select Time");
+                mTimePicker2.show();
+
+            }
+        });
+
         setbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,6 +252,19 @@ public class Settings2 extends AppCompatActivity {
                 } else {
                     timeButton.setVisibility(View.GONE);
                     setbutton2.setImageResource(R.drawable.ic_down1);
+                }
+            }
+        });
+
+        setbutton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (timeButton2.getVisibility() == View.GONE){
+                    timeButton2.setVisibility(View.VISIBLE);
+                    setbutton3.setImageResource(R.drawable.ic_up1);
+                } else {
+                    timeButton2.setVisibility(View.GONE);
+                    setbutton3.setImageResource(R.drawable.ic_down1);
                 }
             }
         });

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:orientation="vertical"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     tools:context=".Settings2">
 
     <LinearLayout
@@ -55,96 +55,11 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/settings1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Change the wifi used by the system"
-                    android:textStyle="bold"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/setbutton1"
-                    app:layout_constraintBottom_toBottomOf="@id/setbutton1"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/setbutton1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_down1"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-                <Spinner
-                    android:id="@+id/wifiSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
-                <EditText
-                    android:id="@+id/wifi_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="10dp"
-                    android:ems="10"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/baseline_wifi_24"
-                    android:drawablePadding="12dp"
-                    android:hint="Wifi SSID"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/settings1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/passwifi_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="10dp"
-                    android:ems="10"
-                    android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/baseline_lock_outline_24"
-                    android:drawablePadding="12dp"
-                    android:hint="Wifi Password"
-                    android:inputType="textPassword"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/wifi_et"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"/>
-
-                <Button
-                    android:id="@+id/WifiSubmit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Submit"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="15sp"
-                    android:paddingEnd="10dp"
-                    android:paddingStart="10dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/passwifi_et"
-                    app:layout_constraintVertical_bias="0.1"
-                    android:background="@drawable/rounded_corner"
-                    android:layout_marginTop="15dp"
-                    android:visibility="gone"/>
-
 
                 <TextView
                     android:id="@+id/settings2"
@@ -165,8 +80,8 @@
                     android:src="@drawable/ic_down1"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/WifiSubmit"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="MissingConstraints" />
 
                 <Button
                     android:id="@+id/timeButton"
@@ -226,12 +141,204 @@
                     android:layout_marginTop="15dp"
                     android:visibility="gone"/>
 
+                <TextView
+                    android:id="@+id/paramedictitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add more hotlines:"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/timeButton2"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/white"/>
+
+                <EditText
+                    android:id="@+id/aphoneNumberEditText"
+                    android:layout_width="220dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:hint="Add paramedic hotline"
+                    android:inputType="phone"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/labelEditTextPara"
+                    app:layout_constraintTop_toBottomOf="@+id/paramedictitle" />
+
+                <EditText
+                    android:id="@+id/labelEditTextPara"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:textSize="16dp"
+                    android:hint="Label"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/paramedictitle"
+                />
+
+                <Button
+                    android:id="@+id/aaddNumberButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/baseline_add_circle_24"
+                    app:layout_constraintTop_toBottomOf="@id/paramedictitle"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ListView
+                    android:id="@+id/phoneNumbersListViewPara"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="@color/white"
+                    android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+                    android:scrollbarTrackVertical="@drawable/scrollbar_track"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/aaddNumberButton"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <EditText
+                    android:id="@+id/bphoneNumberEditText"
+                    android:layout_width="220dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:hint="Add fire dept. hotline"
+                    android:inputType="phone"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/labelEditTextFire"
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumbersListViewPara" />
+
+                <EditText
+                    android:id="@+id/labelEditTextFire"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:textSize="16dp"
+                    android:hint="Label"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumbersListViewPara" />
+
+                <Button
+                    android:id="@+id/baddNumberButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/baseline_add_circle_24"
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumbersListViewPara"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ListView
+                    android:id="@+id/phoneNumbersListViewFire"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+                    android:scrollbarTrackVertical="@drawable/scrollbar_track"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/baddNumberButton"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <EditText
+                    android:id="@+id/cphoneNumberEditText"
+                    android:layout_width="220dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:hint="Add police hotline"
+                    android:inputType="phone"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/labelEditTextPolice"
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumbersListViewFire" />
+
+                <EditText
+                    android:id="@+id/labelEditTextPolice"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:textSize="16dp"
+                    android:hint="Label"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumbersListViewFire" />
+
+                <Button
+                    android:id="@+id/caddNumberButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/baseline_add_circle_24"
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumbersListViewFire"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ListView
+                    android:id="@+id/phoneNumbersListViewPolice"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+                    android:scrollbarTrackVertical="@drawable/scrollbar_track"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/caddNumberButton"
+                    tools:layout_editor_absoluteX="0dp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </ScrollView>
-
     </LinearLayout>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/NavigationView"
         android:layout_width="wrap_content"

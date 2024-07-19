@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.javanew_resq"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.javanew_resq"
@@ -32,6 +32,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    dependenciesInfo {
+        includeInApk = false
     }
 }
 

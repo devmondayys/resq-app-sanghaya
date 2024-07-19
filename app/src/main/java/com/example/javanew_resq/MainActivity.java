@@ -1,8 +1,5 @@
 package com.example.javanew_resq;
 
-
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,12 +15,9 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -54,13 +47,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,12 +62,10 @@ public class MainActivity extends AppCompatActivity {
     Button button2;
     TextView textView;
     TextView textView1;
-    TextView conndeet;
     FirebaseUser user;
     ImageView status_light;
     ImageView connection;
     BottomSheetDialog sheetDialog;
-    static int PERMISSION_CODE= 100;
     private boolean firebutton = true;
     private boolean quakebutton = true;
     DrawerLayout drawerLayout;
@@ -83,21 +74,22 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
-
+    private ArrayList<String> paraLabels = new ArrayList<>();
+    private ArrayList<String> paraNumbers = new ArrayList<>();
+    private ArrayList<String> fireLabels = new ArrayList<>();
+    private ArrayList<String> fireNumbers = new ArrayList<>();
+    private ArrayList<String> policeLabels = new ArrayList<>();
+    private ArrayList<String> policeNumbers = new ArrayList<>();
+    private Button showDialogMedButton, showDialogFireButton, showDialogPoliceButton;
 
     ActivityResultLauncher<String[]> mPermissionResultLauncher;
     private boolean isCallPermissionGranted = false;
     private boolean isLocationPermissionGranted = false;
 
-    private int PARAMEDIC_LINE;
-
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
-    private Object text;
-    private String title;
 
     @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -107,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
-
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
@@ -116,133 +107,25 @@ public class MainActivity extends AppCompatActivity {
         textView1 = findViewById(R.id.emer_title);
         status_light = findViewById(R.id.status_light);
         connection = findViewById(R.id.connection);
-        conndeet = findViewById(R.id.conndeet);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("device_status");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Integer value = dataSnapshot.getValue(Integer.class);
-                // Update the TextView with the retrieved value
-                if (value != null) {
-                    // Set different texts based on the value
-                    switch (value) {
-                        case 0:
-                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_off));
-                            break;
-                        case 1:
-                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_starting));
-                            break;
-                        case 2:
-                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_active));
-                            break;
-                        default:
-                            // Set a default text for other values
-                            status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                status_light.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
-            }
-        });
-
-
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("wifi_status");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Integer value = dataSnapshot.getValue(Integer.class);
-                // Update the TextView with the retrieved value
-                if (value != null) {
-                    // Set different texts based on the value
-                    switch (value) {
-                        case 0:
-                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_off));
-                            break;
-                        case 1:
-                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_starting));
-                            break;
-                        case 2:
-                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24_active));
-                            break;
-                        default:
-                            // Set a default text for other values
-                            connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                connection.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.baseline_circle_24));
-            }
-        });
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("Wifi/ssid");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-
-                // Update the TextView with the retrieved value
-                if (value != null) {
-                    // Assuming 'value' is the text retrieved from the database
-                    String connectedText = "Connected to: ";
-                    SpannableString spannableString = new SpannableString(connectedText + value);
-
-// Make the 'value' part bold
-                    StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
-                    spannableString.setSpan(boldSpan, connectedText.length(), spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-// Make the 'value' part white
-                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
-                    spannableString.setSpan(colorSpan, connectedText.length(), spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-// Set the SpannableString to the TextView
-                    conndeet.setText(spannableString);
-
-// Set the SpannableString to the TextView
-                    conndeet.setText(spannableString);
-                } else{
-                    conndeet.setText("Connecting...");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                conndeet.setText("Connection Failed");
-            }
-        });
-
-
-
-
-
-
-
-
-        int num = 1;
-        if (user.getUid().equalsIgnoreCase("rcHgvzu9wJTP5k65LlSjFu4KFO93")){
-            textView.setText("ADMIN");
-        } else if (user.getUid().equalsIgnoreCase("xhwQuG9n7XQJ5Jlr9tZq0zuhiyE2")) {
-            textView.setText("MAINTENANCE");
-        } else{
-            textView.setText("DEFAULT");
+        // Check for internet connection and prompt if not connected
+        if (!isNetworkConnected()) {
+            showInternetPrompt();
         }
 
+        if (user != null) {
+            if (user.getUid().equalsIgnoreCase("rcHgvzu9wJTP5k65LlSjFu4KFO93")) {
+                textView.setText("ADMIN");
+            } else if (user.getUid().equalsIgnoreCase("xhwQuG9n7XQJ5Jlr9tZq0zuhiyE2")) {
+                textView.setText("MAINTENANCE");
+            } else {
+                textView.setText("DEFAULT");
+            }
+        } else {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        }
 
         sidebar_open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,46 +137,35 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navMenu) {
                     drawerLayout.close();
-                }
-
-                if (itemId == R.id.navMenu2) {
+                } else if (itemId == R.id.navMenu2) {
                     Intent intent = new Intent(getApplicationContext(), Settings2.class);
                     startActivity(intent);
-                }
-                if (itemId == R.id.navMenu3) {
+                } else if (itemId == R.id.navMenu3) {
                     String url = "https://console.firebase.google.com/u/7/project/resqdtb/database/resqdtb-default-rtdb/data";
-
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
-                }
-                if (itemId == R.id.navMenu4) {
+                } else if (itemId == R.id.navMenu4) {
                     Intent intent = new Intent(getApplicationContext(), Manual.class);
                     startActivity(intent);
-                }
-
-                if (itemId == R.id.navMenu5) {
+                } else if (itemId == R.id.navMenu5) {
                     Intent intent = new Intent(getApplicationContext(), Faq.class);
                     startActivity(intent);
                 }
                 return false;
             }
         });
-//             Initialize Firebase database
-            mDatabase = FirebaseDatabase.getInstance().getReference();
 
-            // Attach a listener to read the data at our reference "example"
-
+        // Initialize Firebase database
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 auth.signOut();
                 Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
@@ -305,33 +177,17 @@ public class MainActivity extends AppCompatActivity {
         mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
             public void onActivityResult(Map<String, Boolean> result) {
-
-                if (result.get(Manifest.permission.CALL_PHONE) != null){
-
+                if (result.get(Manifest.permission.CALL_PHONE) != null) {
                     isCallPermissionGranted = Boolean.TRUE.equals(result.get(Manifest.permission.CALL_PHONE));
-
                 }
 
-                if (result.get(Manifest.permission.ACCESS_FINE_LOCATION) != null){
-
+                if (result.get(Manifest.permission.ACCESS_FINE_LOCATION) != null) {
                     isLocationPermissionGranted = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION));
-
                 }
-
             }
         });
 
         requestPermission();
-
-        String email = user.getUid();
-
-
-        if (user == null) {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss(); // Dismiss the original AlertDialog
                                 showDialog();
                             }
                         })
@@ -352,133 +209,326 @@ public class MainActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-
             }
         });
-
     }
-    private void requestPermission(){
 
-        isCallPermissionGranted = ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CALL_PHONE
-        ) == PackageManager.PERMISSION_GRANTED;
+    private void requestPermission() {
+        isCallPermissionGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED;
+        isLocationPermissionGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        isLocationPermissionGranted = ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED;
+        List<String> permissionRequest = new ArrayList<>();
 
-        List<String> permissionRequest = new ArrayList<String>();
-
-        if (!isCallPermissionGranted){
-
+        if (!isCallPermissionGranted) {
             permissionRequest.add(Manifest.permission.CALL_PHONE);
         }
-        if (!isLocationPermissionGranted){
-
+        if (!isLocationPermissionGranted) {
             permissionRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
 
-        if (!permissionRequest.isEmpty()){
-
+        if (!permissionRequest.isEmpty()) {
             mPermissionResultLauncher.launch(permissionRequest.toArray(new String[0]));
         }
-
-
     }
+
     @SuppressLint({"CutPasteId", "UseCompatLoadingForDrawables"})
     private void showDialog() {
-
         final Dialog sheetDialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheetStyle);
-        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_dialog,
-                (LinearLayout) findViewById(R.id.sheet));
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_dialog, (LinearLayout) findViewById(R.id.sheet));
         sheetDialog.setContentView(view);
-        Button paramedbtn;
-        Button firedeptbtn;
-        Button policebtn;
-        Button firebtn;
-        Button quakebtn;
-        AlertDialog.Builder builder;
 
-        user = auth.getCurrentUser();
+        Button firebtn = view.findViewById(R.id.fire_alarm);
+        Button quakebtn = view.findViewById(R.id.earthquake_alarm);
+        Button showDialogMedButton = view.findViewById(R.id.paramed_call);
+        Button showDialogFireButton = view.findViewById(R.id.firedept_call);
+        Button showDialogPoliceButton = view.findViewById(R.id.police_call);
 
-        paramedbtn = sheetDialog.findViewById(R.id.paramed_call);
-        firedeptbtn = sheetDialog.findViewById(R.id.firedept_call);
-        policebtn = sheetDialog.findViewById(R.id.police_call);
-        firebtn = sheetDialog.findViewById(R.id.fire_alarm);
-        quakebtn = sheetDialog.findViewById(R.id.earthquake_alarm);
-
-
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         firebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // If fire button is not activated
+                if (!firebutton) {
+                    // Activate fire button
+                    firebutton = true;
+                    firebtn.setBackgroundResource(R.drawable.def_fire); // Set activated drawable
+                    mDatabase.child("ev").setValue(0); // Update database
 
-            if(!firebutton){
-                    firebutton=true;
-                    mDatabase.child("ev").setValue(0);
-
-                }
-            else{
-                    firebutton=false;
-                    mDatabase.child("ev").setValue(1);
+                    // Deactivate quake button if it was activated
+                    if (quakebutton) {
+                        quakebutton = false;
+                        quakebtn.setBackgroundResource(R.drawable.act_quake); // Set default drawable
+                        mDatabase.child("qv").setValue(1); // Update database
+                    }
+                } else {
+                    // Deactivate fire button
+                    firebutton = false;
+                    firebtn.setBackgroundResource(R.drawable.act_fire); // Set default drawable
+                    mDatabase.child("ev").setValue(1); // Update database
                 }
             }
-
         });
+
         quakebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!quakebutton){
-                    quakebutton=true;
-                    mDatabase.child("qv").setValue(0);
+                // If quake button is not activated
+                if (!quakebutton) {
+                    // Activate quake button
+                    quakebutton = true;
+                    quakebtn.setBackgroundResource(R.drawable.def_quake); // Set activated drawable
+                    mDatabase.child("qv").setValue(0); // Update database
+
+                    // Deactivate fire button if it was activated
+                    if (firebutton) {
+                        firebutton = false;
+                        firebtn.setBackgroundResource(R.drawable.act_fire); // Set default drawable
+                        mDatabase.child("ev").setValue(1); // Update database
+                    }
+                } else {
+                    // Deactivate quake button
+                    quakebutton = false;
+                    quakebtn.setBackgroundResource(R.drawable.act_quake); // Set default drawable
+                    mDatabase.child("qv").setValue(1); // Update database
                 }
-                else{
-                    quakebutton=false;
-                    mDatabase.child("qv").setValue(1);
-                }
             }
-
         });
 
 
-        policebtn.setOnClickListener(new View.OnClickListener() {
+        showDialogMedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:09999721111"));
-                startActivity(intent);
+                fetchPhoneNumbersMed();
             }
-
         });
 
-
-        firedeptbtn.setOnClickListener(new View.OnClickListener() {
+        showDialogFireButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:(032)3400252"));
-                startActivity(intent);
+                fetchPhoneNumbersFire();
             }
-
         });
 
-
-
-        paramedbtn.setOnClickListener(new View.OnClickListener() {
+        showDialogPoliceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:09189210000"));
-                startActivity(intent);
+                fetchPhoneNumbersPolice();
             }
-
         });
-
 
         sheetDialog.show();
-
     }
 
+    @SuppressLint("MissingPermission")
+    private void makePhoneCall(String phoneNumber) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
+        } else {
+            Toast.makeText(MainActivity.this, "Call Permission Denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void fetchPhoneNumbersMed() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("paramedics");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                paraLabels.clear();
+                paraNumbers.clear();
+
+                // Retrieve each phone number with label
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String label = snapshot.child("label").getValue(String.class);
+                        String number = snapshot.child("phoneNumber").getValue(String.class);
+
+                        if (label != null && number != null) {
+                            paraLabels.add(label + ": " + number);
+                            paraNumbers.add(number);
+                        }
+                    }
+
+                    if (paraLabels.isEmpty()) {
+                        paraLabels.add("No contacts");
+                    }
+                } else {
+                    paraLabels.add("No contacts");
+                }
+
+                // After fetching the phone numbers, show the dialog
+                showDialogsMed();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle database error
+                Toast.makeText(MainActivity.this, "Failed to fetch phone numbers.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void fetchPhoneNumbersFire() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("fire_dept");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                fireLabels.clear();
+                fireNumbers.clear();
+
+                // Retrieve each phone number with label
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String label = snapshot.child("label").getValue(String.class);
+                        String number = snapshot.child("phoneNumber").getValue(String.class);
+
+                        if (label != null && number != null) {
+                            fireLabels.add(label + ": " + number);
+                            fireNumbers.add(number);
+                        }
+                    }
+
+                    if (fireLabels.isEmpty()) {
+                        fireLabels.add("No contacts");
+                    }
+                } else {
+                    fireLabels.add("No contacts");
+                }
+
+                // After fetching the phone numbers, show the dialog
+                showDialogsFire();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle database error
+                Toast.makeText(MainActivity.this, "Failed to fetch phone numbers.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchPhoneNumbersPolice() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("police_dept");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                policeLabels.clear();
+                policeNumbers.clear();
+
+                // Retrieve each phone number with label
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String label = snapshot.child("label").getValue(String.class);
+                        String number = snapshot.child("phoneNumber").getValue(String.class);
+
+                        if (label != null && number != null) {
+                            policeLabels.add(label + ": " + number);
+                            policeNumbers.add(number);
+                        }
+                    }
+
+                    if (policeLabels.isEmpty()) {
+                        policeLabels.add("No contacts");
+                    }
+                } else {
+                    policeLabels.add("No contacts");
+                }
+
+                // After fetching the phone numbers, show the dialog
+                showDialogsPolice();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle database error
+                Toast.makeText(MainActivity.this, "Failed to fetch phone numbers.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void showDialogsMed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Call Paramedics");
+
+        // Convert labels ArrayList to an array
+        final CharSequence[] labelsArray = paraLabels.toArray(new CharSequence[paraLabels.size()]);
+
+        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Dial the selected phone number
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + paraNumbers.get(which)));
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
+    }
+
+    private void showDialogsFire() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Call Fire Dept.");
+
+        // Convert labels ArrayList to an array
+        final CharSequence[] labelsArray = fireLabels.toArray(new CharSequence[fireLabels.size()]);
+
+        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Dial the selected phone number
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + fireNumbers.get(which)));
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
+    }
+
+    private void showDialogsPolice() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Call Police Dept.");
+
+        // Convert labels ArrayList to an array
+        final CharSequence[] labelsArray = policeLabels.toArray(new CharSequence[policeLabels.size()]);
+
+        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Dial the selected phone number
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + policeNumbers.get(which)));
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
+    }
+
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void showInternetPrompt() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Internet Connection")
+                .setMessage("Please check your internet connection and try again.")
+                .setCancelable(false)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        if (isNetworkConnected()) {
+                            dialogInterface.dismiss();
+                        } else {
+                            showInternetPrompt();
+                        }
+                    }
+                })
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        finish();
+                    }
+                })
+                .show();
+    }
 }

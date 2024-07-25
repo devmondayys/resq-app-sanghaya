@@ -3,5 +3,6 @@
     <style name="Base.Theme.JavaNew_ResQ" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="fontFamily">@font/bahnschrift</item>
     </style>
 </resources>

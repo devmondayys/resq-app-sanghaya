@@ -41,6 +41,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -88,8 +90,13 @@ public class Settings2 extends AppCompatActivity {
     private ListView phoneNumbersListViewPara, phoneNumbersListViewFire, phoneNumbersListViewPolice;
     private ArrayList<PhoneNumber> paramedicsList, fireDeptList, policeDeptList;
     private PhoneNumberAdapter paramedicsAdapter, fireDeptAdapter, policeDeptAdapter;
+    private DatabaseReference mDatabase;
+    private LinearLayout timesContainer;
     int hour, minute;
-
+    private ListView timesListView;
+    private TimeAdapter timeAdapter;
+    private List<TimeEntry> timeEntries;
+    private TextView noTimeAlarmTextView;
 
 
 
@@ -97,11 +104,11 @@ public class Settings2 extends AppCompatActivity {
     ActivityResultLauncher<String[]> mPermissionResultLauncher;
     private boolean isCallPermissionGranted = false;
     private boolean isLocationPermissionGranted = false;
-    private DatabaseReference mDatabase;
 
     private int PARAMEDIC_LINE;
 
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
+    private Bundle savedInstanceState;
 
     @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
@@ -119,8 +126,6 @@ public class Settings2 extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         sidebar_open = findViewById(R.id.sidebar_open);
         navigationView = findViewById(R.id.NavigationView);
-        timeButton = findViewById(R.id.timeButton);
-        timeButton2 = findViewById(R.id.timeButton2);
         aphoneNumberEditText = findViewById(R.id.aphoneNumberEditText);
         bphoneNumberEditText = findViewById(R.id.bphoneNumberEditText);
         cphoneNumberEditText = findViewById(R.id.cphoneNumberEditText);
@@ -163,83 +168,37 @@ public class Settings2 extends AppCompatActivity {
         aaddNumberButton.setOnClickListener(v -> addPhoneNumber("paramedics", aphoneNumberEditText, labelEditTextPara));
         baddNumberButton.setOnClickListener(v -> addPhoneNumber("fire_dept", bphoneNumberEditText, labelEditTextFire));
         caddNumberButton.setOnClickListener(v -> addPhoneNumber("police_dept", cphoneNumberEditText, labelEditTextPolice));
-
+        TextView noParamedicsTextView = findViewById(R.id.noParamedicsTextView);
+        TextView noFireDeptTextView = findViewById(R.id.noFireDeptTextView);
+        TextView noPoliceDeptTextView = findViewById(R.id.noPoliceDeptTextView);
         // Retrieve phone numbers from Firebase
-        retrievePhoneNumbers("paramedics", paramedicsList, paramedicsAdapter);
-        retrievePhoneNumbers("fire_dept", fireDeptList, fireDeptAdapter);
-        retrievePhoneNumbers("police_dept", policeDeptList, policeDeptAdapter);
+        retrievePhoneNumbers("paramedics", paramedicsList, paramedicsAdapter, noParamedicsTextView);
+        retrievePhoneNumbers("fire_dept", fireDeptList, fireDeptAdapter, noFireDeptTextView);
+        retrievePhoneNumbers("police_dept", policeDeptList, policeDeptAdapter, noPoliceDeptTextView);
 
 
-        // Retrieve phone numbers from Firebase
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        timesListView = findViewById(R.id.times_list_view);
 
-//        TextView text1 = findViewById(R.id.wifi_et);
-//        TextView text2 = findViewById(R.id.passwifi_et);
-//        Button wifibutton = findViewById(R.id.WifiSubmit);
+        // Initialize timeEntries before using it
+        timeEntries = new ArrayList<>();
 
+        // Initialize the adapter with the non-null list
+        timeAdapter = new TimeAdapter((Context) this, timeEntries);
+        timesListView.setAdapter(timeAdapter);
+        noTimeAlarmTextView = findViewById(R.id.no_time_alarm_text_view);
 
-        int mHour, mMinute;
+        Button timeButton2 = findViewById(R.id.timeButton2);
+        timeButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }
+        });
 
-//        ImageView setbutton1 = findViewById(R.id.setbutton1);
-        ImageView setbutton2 = findViewById(R.id.setbutton2);
-        ImageView setbutton3 = findViewById(R.id.setbutton3);
+        retrieveAndDisplayTimes();
 
-//        setbutton1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (text1.getVisibility() == View.GONE) {
-//                    text1.setVisibility(View.VISIBLE);
-//                    text2.getVisibility();
-//                    text2.setVisibility(View.VISIBLE);
-//                    wifibutton.getVisibility();
-//                    wifibutton.setVisibility(View.VISIBLE);
-//                    setbutton1.setImageResource(R.drawable.ic_up1);
-//                } else {
-//                    text1.setVisibility(View.GONE);
-//                    text2.setVisibility(View.GONE);
-//                    wifibutton.setVisibility(View.GONE);
-//                    setbutton1.setImageResource(R.drawable.ic_down1);
-//                }
-//            }
-//        });
-//        wifibutton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Get the text from the SSID and password input fields
-//                String ssid = text1.getText().toString().trim();
-//                String password = text2.getText().toString().trim();
-//
-//                // Check if SSID and password are not empty
-//                if (!ssid.isEmpty() && !password.isEmpty()) {
-//                    // Construct the database path
-//                    String wifiPath = "Wifi/ssid";
-//                    String wifipassPath = "Wifi/passkey";
-//
-//                    // Update the database with SSID and password
-//                    mDatabase.child(wifiPath).setValue(ssid)
-//                            .addOnSuccessListener(aVoid -> {
-//                                // Database update successful
-//                                Toast.makeText(Settings2.this, "Wi-Fi credentials updated successfully.", Toast.LENGTH_SHORT).show();
-//                            })
-//                            .addOnFailureListener(e -> {
-//                                // Database update failed
-//                                Toast.makeText(Settings2.this, "Failed to update Wi-Fi credentials.", Toast.LENGTH_SHORT).show();
-//                            });
-//                    mDatabase.child(wifipassPath).setValue(password)
-//                            .addOnSuccessListener(aVoid -> {
-//                                // Database update successful
-//                                Toast.makeText(Settings2.this, "Wi-Fi credentials updated successfully.", Toast.LENGTH_SHORT).show();
-//                            })
-//                            .addOnFailureListener(e -> {
-//                                // Database update failed
-//                                Toast.makeText(Settings2.this, "Failed to update Wi-Fi credentials.", Toast.LENGTH_SHORT).show();
-//                            });
-//                } else {
-//                    // SSID or password is empty
-//                    Toast.makeText(Settings2.this, "Please enter SSID and password.", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
         sidebar_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,99 +239,19 @@ public class Settings2 extends AppCompatActivity {
                 return false;
             }
         });
-//
-        TextView my_Time = findViewById(R.id.timeButton);
-        TextView my_Time2 = findViewById(R.id.timeButton2);
 
-        timeButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-
-                Task<DataSnapshot> currhr = mDatabase.child("alarm/hours").get();
-                Task<DataSnapshot> currmins = mDatabase.child("alarm/minutes").get();
-
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(Settings2.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        timePicker.setIs24HourView(true);
-                        String am_pm = (selectedHour < 12) ? "AM" : "PM";
-                        int hour_of_12_hour_format = (selectedHour == 0 || selectedHour == 12) ? 12 : selectedHour % 12;
-                        my_Time.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour_of_12_hour_format, selectedMinute, am_pm));
-                        my_Time.setText(selectedHour + ":" + selectedMinute);
-                        mDatabase.child("alarm/hours").setValue(selectedHour);
-                        mDatabase.child("alarm/minutes").setValue(selectedMinute);
-
-                    }
-                }, hour, minute, false);
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();
-
-            }
-        });
-
-        timeButton2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-
-                Task<DataSnapshot> currhr = mDatabase.child("alarm/hours").get();
-                Task<DataSnapshot> currmins = mDatabase.child("alarm/minutes").get();
-
-                TimePickerDialog mTimePicker2;
-                mTimePicker2 = new TimePickerDialog(Settings2.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        timePicker.setIs24HourView(true);
-                        String am_pm = (selectedHour < 12) ? "AM" : "PM";
-                        int hour_of_12_hour_format = (selectedHour == 0 || selectedHour == 12) ? 12 : selectedHour % 12;
-                        my_Time2.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour_of_12_hour_format, selectedMinute, am_pm));
-                        my_Time2.setText(selectedHour + ":" + selectedMinute);
-                        mDatabase.child("alarm/hours").setValue(selectedHour);
-                        mDatabase.child("alarm/minutes").setValue(selectedMinute);
-
-                    }
-                }, hour, minute, false);
-                mTimePicker2.setTitle("Select Time");
-                mTimePicker2.show();
-
-            }
-        });
-
-        setbutton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (timeButton.getVisibility() == View.GONE) {
-                    timeButton.setVisibility(View.VISIBLE);
-                    setbutton2.setImageResource(R.drawable.ic_up1);
-                } else {
-                    timeButton.setVisibility(View.GONE);
-                    setbutton2.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
-
-        setbutton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (timeButton2.getVisibility() == View.GONE) {
-                    timeButton2.setVisibility(View.VISIBLE);
-                    setbutton3.setImageResource(R.drawable.ic_up1);
-                } else {
-                    timeButton2.setVisibility(View.GONE);
-                    setbutton3.setImageResource(R.drawable.ic_down1);
-                }
-            }
-        });
+//        setbutton3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (timeButton2.getVisibility() == View.GONE) {
+//                    timeButton2.setVisibility(View.VISIBLE);
+//                    setbutton3.setImageResource(R.drawable.ic_up1);
+//                } else {
+//                    timeButton2.setVisibility(View.GONE);
+//                    setbutton3.setImageResource(R.drawable.ic_down1);
+//                }
+//            }
+//        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -450,7 +329,60 @@ public class Settings2 extends AppCompatActivity {
         // Retrieve phone numbers from database
     }
 
+    private void showTimePickerDialog() {
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        mDatabase = FirebaseDatabase.getInstance().getReference("alarm");
+        TimePickerDialog mTimePicker2 = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                String key = mDatabase.child("times").push().getKey();
+                TimeEntry timeEntry = new TimeEntry(selectedHour, selectedMinute, key);
+                if (key != null) {
+                    mDatabase.child("times").child(key).setValue(timeEntry);
+                }
+            }
+        }, hour, minute, true);
+        mTimePicker2.setTitle("Select Time");
+        mTimePicker2.show();
+    }
+
+    private void retrieveAndDisplayTimes() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("alarm/times").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                timeEntries.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    TimeEntry timeEntry = snapshot.getValue(TimeEntry.class);
+                    if (timeEntry != null) {
+                        timeEntries.add(timeEntry);
+                    }
+                }
+
+                // Show or hide the "No time alarm added" message
+                if (timeEntries.isEmpty()) {
+                    noTimeAlarmTextView.setVisibility(View.VISIBLE);
+                } else {
+                    noTimeAlarmTextView.setVisibility(View.GONE);
+                }
+
+                timeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
+    }
+
+
+
+
     private void addPhoneNumber(String node, EditText phoneNumberEditText, EditText labelEditText) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         String phoneNumber = phoneNumberEditText.getText().toString().trim();
         String label = labelEditText.getText().toString().trim();
         if (!phoneNumber.isEmpty() && !label.isEmpty()) {
@@ -473,7 +405,7 @@ public class Settings2 extends AppCompatActivity {
         }
     }
 
-    private void retrievePhoneNumbers(String node, ArrayList<PhoneNumber> numbersList, PhoneNumberAdapter adapter) {
+    private void retrievePhoneNumbers(String node, ArrayList<PhoneNumber> numbersList, PhoneNumberAdapter adapter, TextView noContactsTextView) {
         mDatabase = FirebaseDatabase.getInstance().getReference(node);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -490,14 +422,10 @@ public class Settings2 extends AppCompatActivity {
 
                 // Check if the list is empty and show a message if it is
                 if (numbersList.isEmpty()) {
-                    // You can show a Toast or update a TextView in the UI to show the "No contacts" message
-                    Toast.makeText(Settings2.this, "No contacts", Toast.LENGTH_SHORT).show();
-
-                    // If using a TextView to show "No contacts"
+                    noContactsTextView.setVisibility(View.VISIBLE);
+                    noContactsTextView.setText("No contacts available");
                 } else {
-                    // Hide "No contacts" message if contacts are available
-                    // TextView noContactsTextView = findViewById(R.id.noContactsTextView);
-                    // noContactsTextView.setVisibility(View.GONE);
+                    noContactsTextView.setVisibility(View.GONE);
                 }
 
                 // Notify the adapter of data changes
@@ -510,6 +438,7 @@ public class Settings2 extends AppCompatActivity {
             }
         });
     }
+
     public void popTimePicker(View view) {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -582,6 +511,8 @@ public class Settings2 extends AppCompatActivity {
         }
     }
 
+
+
     private class PhoneNumberAdapter extends ArrayAdapter<PhoneNumber> {
         private final Context context;
         private final ArrayList<PhoneNumber> values;
@@ -613,5 +544,47 @@ public class Settings2 extends AppCompatActivity {
 
             return convertView;
         }
+
     }
+    public static class TimeEntry {
+        private int hour;
+        private int minute;
+        private String key;
+
+        // No-argument constructor required for Firebase
+        public TimeEntry() {
+        }
+
+        public TimeEntry(int hour, int minute, String key) {
+            this.hour = hour;
+            this.minute = minute;
+            this.key = key;
+        }
+
+        // Getters and setters
+        public int getHour() {
+            return hour;
+        }
+
+        public void setHour(int hour) {
+            this.hour = hour;
+        }
+
+        public int getMinute() {
+            return minute;
+        }
+
+        public void setMinute(int minute) {
+            this.minute = minute;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+    }
+
 }

@@ -32,6 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -107,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         textView1 = findViewById(R.id.emer_title);
         status_light = findViewById(R.id.status_light);
         connection = findViewById(R.id.connection);
+
+        Typeface typeface = ResourcesCompat.getFont(this, R.font.official_font);
+        textView.setTypeface(typeface);
+        textView1.setTypeface(typeface);
 
         // Check for internet connection and prompt if not connected
         if (!isNetworkConnected()) {

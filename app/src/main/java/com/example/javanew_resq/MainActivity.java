@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (user.getUid().equalsIgnoreCase("xhwQuG9n7XQJ5Jlr9tZq0zuhiyE2")) {
                 textView.setText("MAINTENANCE");
             } else {
-                textView.setText("DEFAULT");
+                textView.setText("RESQ");
             }
         } else {
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -145,25 +146,25 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navMenu) {
-                    drawerLayout.close();
+                    // Close drawer only
                 } else if (itemId == R.id.navMenu2) {
-                    Intent intent = new Intent(getApplicationContext(), Settings2.class);
-                    startActivity(intent);
+                    startActivity(new Intent(getApplicationContext(), Settings2.class));
                 } else if (itemId == R.id.navMenu3) {
                     String url = "https://console.firebase.google.com/u/7/project/resqdtb/database/resqdtb-default-rtdb/data";
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(i);
                 } else if (itemId == R.id.navMenu4) {
-                    Intent intent = new Intent(getApplicationContext(), Manual.class);
-                    startActivity(intent);
+                    startActivity(new Intent(getApplicationContext(), Manual.class));
                 } else if (itemId == R.id.navMenu5) {
-                    Intent intent = new Intent(getApplicationContext(), Faq.class);
-                    startActivity(intent);
+                    startActivity(new Intent(getApplicationContext(), Faq.class));
                 }
-                return false;
+
+                // Close drawer after item selection
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true; // Returning true keeps the item highlighted
             }
         });
+
 
         // Initialize Firebase database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -249,27 +250,28 @@ public class MainActivity extends AppCompatActivity {
         Button showDialogPoliceButton = view.findViewById(R.id.police_call);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         firebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // If fire button is not activated
                 if (!firebutton) {
-                    // Activate fire button
+                    // Activate fire button (set to play)
                     firebutton = true;
                     firebtn.setBackgroundResource(R.drawable.def_fire); // Set activated drawable
-                    mDatabase.child("ev").setValue(0); // Update database
+                    mDatabase.child("ev").setValue(1); // 1 = Play
 
                     // Deactivate quake button if it was activated
                     if (quakebutton) {
                         quakebutton = false;
                         quakebtn.setBackgroundResource(R.drawable.act_quake); // Set default drawable
-                        mDatabase.child("qv").setValue(1); // Update database
+                        mDatabase.child("qv").setValue(0); // 0 = Off
                     }
                 } else {
-                    // Deactivate fire button
+                    // Deactivate fire button (set to off)
                     firebutton = false;
                     firebtn.setBackgroundResource(R.drawable.act_fire); // Set default drawable
-                    mDatabase.child("ev").setValue(1); // Update database
+                    mDatabase.child("ev").setValue(0); // 0 = Off
                 }
             }
         });
@@ -279,25 +281,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // If quake button is not activated
                 if (!quakebutton) {
-                    // Activate quake button
+                    // Activate quake button (set to play)
                     quakebutton = true;
                     quakebtn.setBackgroundResource(R.drawable.def_quake); // Set activated drawable
-                    mDatabase.child("qv").setValue(0); // Update database
+                    mDatabase.child("qv").setValue(1); // 1 = Play
 
                     // Deactivate fire button if it was activated
                     if (firebutton) {
                         firebutton = false;
                         firebtn.setBackgroundResource(R.drawable.act_fire); // Set default drawable
-                        mDatabase.child("ev").setValue(1); // Update database
+                        mDatabase.child("ev").setValue(0); // 0 = Off
                     }
                 } else {
-                    // Deactivate quake button
+                    // Deactivate quake button (set to off)
                     quakebutton = false;
                     quakebtn.setBackgroundResource(R.drawable.act_quake); // Set default drawable
-                    mDatabase.child("qv").setValue(1); // Update database
+                    mDatabase.child("qv").setValue(0); // 0 = Off
                 }
             }
         });
+
 
 
         showDialogMedButton.setOnClickListener(new View.OnClickListener() {
@@ -355,9 +358,11 @@ public class MainActivity extends AppCompatActivity {
 
                     if (paraLabels.isEmpty()) {
                         paraLabels.add("No contacts");
+                        paraNumbers.add(null); // Mark as non-clickable
                     }
                 } else {
                     paraLabels.add("No contacts");
+                    paraNumbers.add(null); // Mark as non-clickable
                 }
 
                 // After fetching the phone numbers, show the dialog
@@ -366,12 +371,35 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle database error
                 Toast.makeText(MainActivity.this, "Failed to fetch phone numbers.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void showDialogsMed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Call Paramedics");
+
+        final CharSequence[] labelsArray = paraLabels.toArray(new CharSequence[0]);
+
+        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (paraNumbers.get(which) == null) {
+                    return; // Prevent clicking "No contacts"
+                }
+
+                String selectedNumber = paraNumbers.get(which);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + selectedNumber));
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        builder.show();
+    }
+
+// ------------------------------------------------------------
 
     private void fetchPhoneNumbersFire() {
         mDatabase = FirebaseDatabase.getInstance().getReference("fire_dept");
@@ -395,9 +423,11 @@ public class MainActivity extends AppCompatActivity {
 
                     if (fireLabels.isEmpty()) {
                         fireLabels.add("No contacts");
+                        fireNumbers.add(null); // Mark as non-clickable
                     }
                 } else {
                     fireLabels.add("No contacts");
+                    fireNumbers.add(null); // Mark as non-clickable
                 }
 
                 // After fetching the phone numbers, show the dialog
@@ -406,11 +436,34 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle database error
                 Toast.makeText(MainActivity.this, "Failed to fetch phone numbers.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private void showDialogsFire() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Call Fire Department");
+
+        final CharSequence[] labelsArray = fireLabels.toArray(new CharSequence[0]);
+
+        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (fireNumbers.get(which) == null) {
+                    return; // Prevent clicking "No contacts"
+                }
+
+                String selectedNumber = fireNumbers.get(which);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + selectedNumber));
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        builder.show();
+    }
+
 
     private void fetchPhoneNumbersPolice() {
         mDatabase = FirebaseDatabase.getInstance().getReference("police_dept");
@@ -434,77 +487,53 @@ public class MainActivity extends AppCompatActivity {
 
                     if (policeLabels.isEmpty()) {
                         policeLabels.add("No contacts");
+                        policeNumbers.add(null); // Use null to mark non-clickable items
                     }
                 } else {
                     policeLabels.add("No contacts");
+                    policeNumbers.add(null); // Use null to mark non-clickable items
                 }
 
-                // After fetching the phone numbers, show the dialog
+                // Show the dialog after fetching contacts
                 showDialogsPolice();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle database error
                 Toast.makeText(MainActivity.this, "Failed to fetch phone numbers.", Toast.LENGTH_SHORT).show();
+                Log.e("FirebaseError", "Database error: " + databaseError.getMessage());
             }
         });
-    }
-
-
-    private void showDialogsMed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Call Paramedics");
-
-        // Convert labels ArrayList to an array
-        final CharSequence[] labelsArray = paraLabels.toArray(new CharSequence[paraLabels.size()]);
-
-        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // Dial the selected phone number
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + paraNumbers.get(which)));
-                startActivity(intent);
-            }
-        });
-        builder.create().show();
-    }
-
-    private void showDialogsFire() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Call Fire Dept.");
-
-        // Convert labels ArrayList to an array
-        final CharSequence[] labelsArray = fireLabels.toArray(new CharSequence[fireLabels.size()]);
-
-        builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // Dial the selected phone number
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + fireNumbers.get(which)));
-                startActivity(intent);
-            }
-        });
-        builder.create().show();
     }
 
     private void showDialogsPolice() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Call Police Dept.");
+        builder.setTitle("Call Police");
 
         // Convert labels ArrayList to an array
-        final CharSequence[] labelsArray = policeLabels.toArray(new CharSequence[policeLabels.size()]);
+        final CharSequence[] labelsArray = policeLabels.toArray(new CharSequence[0]);
 
         builder.setItems(labelsArray, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Dial the selected phone number
+                // Prevent clicking "No contacts"
+                if (policeNumbers.get(which) == null) {
+                    return; // Do nothing if "No contacts" is clicked
+                }
+
+                // Proceed to dial the selected phone number
+                String selectedNumber = policeNumbers.get(which);
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + policeNumbers.get(which)));
-                startActivity(intent);
+                intent.setData(Uri.parse("tel:" + selectedNumber));
+                MainActivity.this.startActivity(intent);
             }
         });
-        builder.create().show();
+
+        builder.show();
     }
+
+
+
 
 
     private boolean isNetworkConnected() {

@@ -79,11 +79,7 @@ public class Settings2 extends AppCompatActivity {
     DrawerLayout drawerLayout;
     Button sidebar_open;
     NavigationView navigationView;
-    String[] item = {"The system automatically rings at 7:10 to remind students of the time 7:15 to indicate the start of the flag ceremony and listing of tardiness in the morning. It also offers remote triggering capabilities via the ResQ app for emergency situations like earthquakes and fires. "};
-    AutoCompleteTextView autoCompleteTextView;
-    ArrayAdapter<String> adapterText;
     Button timeButton;
-    Button timeButton2;
     private EditText aphoneNumberEditText, bphoneNumberEditText, cphoneNumberEditText;
     private Button aaddNumberButton, baddNumberButton, caddNumberButton;
     private EditText labelEditTextPara, labelEditTextFire, labelEditTextPolice;
@@ -91,7 +87,6 @@ public class Settings2 extends AppCompatActivity {
     private ArrayList<PhoneNumber> paramedicsList, fireDeptList, policeDeptList;
     private PhoneNumberAdapter paramedicsAdapter, fireDeptAdapter, policeDeptAdapter;
     private DatabaseReference mDatabase;
-    private LinearLayout timesContainer;
     int hour, minute;
     private ListView timesListView;
     private TimeAdapter timeAdapter;
@@ -239,19 +234,6 @@ public class Settings2 extends AppCompatActivity {
                 return false;
             }
         });
-
-//        setbutton3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (timeButton2.getVisibility() == View.GONE) {
-//                    timeButton2.setVisibility(View.VISIBLE);
-//                    setbutton3.setImageResource(R.drawable.ic_up1);
-//                } else {
-//                    timeButton2.setVisibility(View.GONE);
-//                    setbutton3.setImageResource(R.drawable.ic_down1);
-//                }
-//            }
-//        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -414,9 +396,17 @@ public class Settings2 extends AppCompatActivity {
 
                 // Populate the numbersList
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    PhoneNumber phoneNumber = snapshot.getValue(PhoneNumber.class);
-                    if (phoneNumber != null) {
-                        numbersList.add(phoneNumber);
+                    Object rawValue = snapshot.getValue();
+                    if (rawValue instanceof Long) {
+                        String phoneString = String.valueOf(rawValue); // Convert Long to String
+                        numbersList.add(new PhoneNumber(phoneString));
+                    } else if (rawValue instanceof String) {
+                        numbersList.add(new PhoneNumber((String) rawValue));
+                    } else if (rawValue instanceof Map) {
+                        PhoneNumber phoneNumber = snapshot.getValue(PhoneNumber.class);
+                        if (phoneNumber != null) {
+                            numbersList.add(phoneNumber);
+                        }
                     }
                 }
 
@@ -492,6 +482,9 @@ public class Settings2 extends AppCompatActivity {
         public PhoneNumber(String phoneNumber, String label) {
             this.phoneNumber = phoneNumber;
             this.label = label;
+        }
+
+        public PhoneNumber(String phoneString) {
         }
 
         public String getPhoneNumber() {

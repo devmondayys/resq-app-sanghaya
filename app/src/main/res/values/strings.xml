@@ -19,6 +19,9 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <string name="accessibility_service_description">Gesture detection service</string>
+
     <string name="faq1">
         The system automatically rings at 7:10 to remind students of the time 7:15 to indicate the start of the flag ceremony and listing of tardiness in the morning. It also offers remote triggering capabilities via the ResQ app for emergency situations like earthquakes and fires.
     </string>

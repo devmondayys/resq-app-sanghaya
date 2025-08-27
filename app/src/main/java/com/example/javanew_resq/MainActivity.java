@@ -9,14 +9,17 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,6 +63,8 @@ import android.net.NetworkInfo;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
+
+
     Button button;
     Button button2;
     TextView textView;
@@ -88,7 +93,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCallPermissionGranted = false;
     private boolean isLocationPermissionGranted = false;
 
+
     private static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
+
+
 
     @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
@@ -114,10 +122,13 @@ public class MainActivity extends AppCompatActivity {
         textView.setTypeface(typeface);
         textView1.setTypeface(typeface);
 
+
+
         // Check for internet connection and prompt if not connected
         if (!isNetworkConnected()) {
             showInternetPrompt();
         }
+
 
         if (user != null) {
             if (user.getUid().equalsIgnoreCase("rcHgvzu9wJTP5k65LlSjFu4KFO93")) {
@@ -219,6 +230,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void openApp() {
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+        if (launchIntent != null) {
+            launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(launchIntent);
+        }
+    }
     private void requestPermission() {
         isCallPermissionGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED;
         isLocationPermissionGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -390,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 String selectedNumber = paraNumbers.get(which);
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + selectedNumber));
                 MainActivity.this.startActivity(intent);
             }
@@ -399,7 +418,6 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-// ------------------------------------------------------------
 
     private void fetchPhoneNumbersFire() {
         mDatabase = FirebaseDatabase.getInstance().getReference("fire_dept");
@@ -455,7 +473,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 String selectedNumber = fireNumbers.get(which);
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + selectedNumber));
                 MainActivity.this.startActivity(intent);
             }
